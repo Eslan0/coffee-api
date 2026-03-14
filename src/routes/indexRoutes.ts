@@ -1,9 +1,9 @@
-import Router from 'koa-router';
-import homeRoutes from './homeRoutes';
-import userRoutes from './userRoutes';
-import sectionRoutes from './sectionRoutes';
-import productRoutes from './productRoutes';
-import orderRoutes from './orderRoutes';
+import Router from "koa-router";
+import homeRoutes from "./homeRoutes";
+import userRoutes from "./userRoutes";
+import sectionRoutes from "./sectionRoutes";
+import productRoutes from "./productRoutes";
+import orderRoutes from "./orderRoutes";
 
 const indexRoutes = new Router();
 

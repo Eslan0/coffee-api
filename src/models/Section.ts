@@ -1,12 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-
-// Interface de dados
-interface ISection extends Document {
-  name: string;
-  products: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Schema
 const SectionSchema = new Schema<ISection>(
@@ -24,7 +16,7 @@ const SectionSchema = new Schema<ISection>(
     ],
   },
   {
-    timestamps: true, // Cria createdAt e updatedAt automaticamente
+    timestamps: true, // Creates createdAt and updatedAt automatically.
     toJSON: {
       transform: (_, ret) => {
         delete ret.__v;

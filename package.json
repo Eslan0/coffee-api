@@ -1,27 +1,53 @@
 {
-  "name": "glamour-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.ts",
+  "name": "coffee-api",
+  "version": "2.0.4",
+  "description": "Coffee API is a compact RESTful API project for small businesses.",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn src/server.ts"
+    "dev": "nodemon",
+    "start": "ts-node-dev --respawn src/server.ts",
+    "build": "tsc -p tsconfig.prod.json",
+    "test": "export NODE_ENV=testing || SET \"NODE_ENV=testing\" && jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "eliasbrell",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eslan0/coffee-api"
+  },
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^5.0.0",
+    "@koa/multer": "^4.0.0",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.9.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "koa": "^3.1.1",
     "koa-bodyparser": "^4.4.1",
     "koa-router": "^14.0.0",
-    "mongoose": "^9.1.6"
+    "mongoose": "^9.1.6",
+    "multer": "^2.1.1",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "@types/koa": "^3.0.1",
+    "@types/koa__cors": "^5.0.1",
+    "@types/koa__multer": "^2.0.8",
     "@types/koa-bodyparser": "^4.3.13",
     "@types/koa-router": "^7.4.9",
+    "@types/multer": "^2.1.0",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.3.0",
+    "mongodb-memory-server": "^11.0.1",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.1",
+    "pretty-quick": "^4.2.2",
+    "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.0"
   }
 }

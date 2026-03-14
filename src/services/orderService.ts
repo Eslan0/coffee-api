@@ -1,4 +1,4 @@
-import Order from '../models/Order';
+import Order from "../models/Order";
 
 class orderService {
   // Busca todos os pedidos
@@ -30,6 +30,6 @@ class orderService {
     const order = await Order.findByIdAndDelete(orderId);
     return order;
   }
-};
+}
 
-export default new orderService;
+export default new orderService();

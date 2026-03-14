@@ -1,14 +1,5 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-
-// Interface de dados
-interface IOrder extends Document {
-  user: Schema.Types.ObjectId;
-  products: Schema.Types.ObjectId[];
-  total: number;
-  status: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema, Model } from "mongoose";
+import { IOrder } from "../interfaces";
 
 // Schema
 const OrderSchema = new Schema<IOrder>(
@@ -34,9 +25,9 @@ const OrderSchema = new Schema<IOrder>(
     },
   },
   {
-    timestamps: true, // Cria createdAt e updatedAt automaticamente
+    timestamps: true, // Creates createdAt and updatedAt automatically.
     toJSON: {
-      virtuals: true, // Exibe os campos virtuais
+      virtuals: true, // Expose virtual fields.
     },
   }
 );

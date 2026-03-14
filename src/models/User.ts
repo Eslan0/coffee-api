@@ -1,13 +1,5 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-
-// Interface de dados
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password?: string; // Opcional para quando ocultarmos na saída
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema, Model } from "mongoose";
+import { IUser } from "../interfaces";
 
 // Schema
 const UserSchema = new Schema<IUser>(
@@ -29,14 +21,14 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: [true, "A senha é obrigatória"],
       minlength: 6,
-      select: false, // Opcional: impede que a senha venha em queries por padrão
+      select: false, // Optional: Prevents the password from being included in queries by default.
     },
   },
-  { 
-    timestamps: true, // Cria createdAt e updatedAt automaticamente
+  {
+    timestamps: true, // Creates createdAt and updatedAt automatically.
     toJSON: {
       transform: (_, ret) => {
-        delete ret.password; // Garante que a senha nunca vá para o JSON final
+        delete ret.password; // Ensures the password never ends up in the final JSON.
         delete ret.__v;
         return ret;
       },
@@ -44,7 +36,7 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-// Evita erro de sobrescrita de model no Next.js/Hot Reloading
+// Avoid model overwrite error in Next.js/Hot Reloading
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 
 export default User;

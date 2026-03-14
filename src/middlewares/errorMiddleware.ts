@@ -1,6 +1,6 @@
-import { Context } from 'koa';
+import { Context } from "koa";
 
-// Middleware para tratamento de erros global
+// Middleware for global error handling
 export const errorMiddleware = () => async (ctx: Context, next: () => Promise<void>) => {
   try {
     await next();

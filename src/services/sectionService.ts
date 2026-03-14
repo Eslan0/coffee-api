@@ -1,4 +1,4 @@
-import Section from '../models/Section';
+import Section from "../models/Section";
 
 class sectionService {
   // Busca todas as seções

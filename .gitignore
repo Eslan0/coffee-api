@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-=======
-############################
-# OS X
-############################
-
->>>>>>> b302dd91ebb1d43e0d1dbb3a20fac1ddb77b0e04
+# macOS
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -13,18 +7,10 @@ Icon
 .Trashes
 ._*
 
-
-############################
 # Linux
-############################
-
 *~
 
-
-############################
 # Windows
-############################
-
 Thumbs.db
 ehthumbs.db
 Desktop.ini
@@ -34,11 +20,19 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Logs and Databases
+logs
+*.log
+.tmp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+error.log*
+*.sql
+*.sqlite
+*.sqlite3
 
-############################
 # Packages
-############################
-
 *.7z
 *.csv
 *.dat
@@ -63,22 +57,7 @@ $RECYCLE.BIN/
 *.out
 *.pid
 
-
-############################
-# Logs and databases
-############################
-
-.tmp
-*.log
-*.sql
-*.sqlite
-*.sqlite3
-
-
-############################
-# Misc.
-############################
-
+# Miscellaneous
 *#
 ssl
 .idea
@@ -88,10 +67,7 @@ public/uploads/*
 .tsbuildinfo
 .eslintcache
 
-############################
 # Node.js
-############################
-
 lib-cov
 lcov.info
 pids
@@ -99,16 +75,11 @@ logs
 results
 node_modules
 .node_history
-
-<<<<<<< HEAD
 .env
 build
 dist
-=======
-############################
-# Package managers
-############################
 
+# Package Managers
 .yarn/*
 !.yarn/cache
 !.yarn/unplugged
@@ -119,22 +90,62 @@ dist
 .pnp.*
 yarn-error.log
 
-############################
 # Tests
-############################
-
 coverage
 
-############################
-# Strapi
-############################
+# Serverless directories
+.serverless
 
+# Runtime Data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Instrumented libraries (jscoverage/JSCover)
+lib-cov
+
+# Coverage directories (Istanbul, NYC)
+coverage
+.nyc_output
+
+# Grunt storage
+.grunt
+
+# Bower components
+bower_components
+
+# Node.js Configurations
+.lock-wscript
+
+# Compiled Binary Addons
+build/Release
+
+# Dependency Directories
+node_modules/
+jspm_packages/
+
+# TypeScript v1 declaration files
+typings/
+
+# Optional Directories
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
+.yarn-integrity
+
+# Environment Variables
 .env
-license.txt
-exports
-.strapi
-dist
-build
-.strapi-updater.json
-.strapi-cloud.json
->>>>>>> b302dd91ebb1d43e0d1dbb3a20fac1ddb77b0e04
+
+# Parcel-bundler Cache
+.cache
+
+# Next.js Build Output
+.next
+
+# Nuxt.js Build Output
+.nuxt
+
+# VuePress Build Output
+.vuepress/dist

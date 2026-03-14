@@ -1,11 +1,16 @@
-import Router from 'koa-router';
-import userController from '../controllers/userController';
+import Router from "koa-router";
+import userController from "../controllers/userController";
+import { followUserController, unFollowUserController } from "../controllers/user.controller";
+import { isAuth, updateUserValidation } from "../middlewares";
 
 const userRoutes = new Router();
 
-// Apenas o mapeamento: Rota + Verbo HTTP + Função do Controller
-userRoutes.get("/users:id", userController.show);
+// Just the mapping: Route + HTTP Verb + Controller Function
+userRoutes.get("/users/:id", userController.show);
 userRoutes.post("/users", userController.create);
 userRoutes.put("/users/:id", userController.update);
+// news
+userRoutes.put("/:userId/follow", isAuth, updateUserValidation, followUserController);
+userRoutes.put("/:userId/un-follow", isAuth, updateUserValidation, unFollowUserController);
 
 export default userRoutes;

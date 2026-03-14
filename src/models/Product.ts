@@ -1,14 +1,5 @@
-import mongoose , { Schema, Document, Model } from 'mongoose';
-
-// Interface de dados
-interface IProduct extends Document {
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  image: string;
-  section: Schema.Types.ObjectId;
-}
+import mongoose, { Schema, Model } from "mongoose";
+import { IProduct } from "../interfaces";
 
 // Schema
 const ProductSchema = new Schema<IProduct>(
@@ -42,13 +33,13 @@ const ProductSchema = new Schema<IProduct>(
     },
   },
   {
-    timestamps: true, // Cria createdAt e updatedAt automaticamente
+    timestamps: true, // Creates createdAt and updatedAt automatically.
     toJSON: {
       transform: (_, ret) => {
         delete ret.__v;
         return ret;
       },
-    }
+    },
   }
 );
 

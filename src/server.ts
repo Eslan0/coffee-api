@@ -1,10 +1,10 @@
-import 'dotenv/config'
-import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
-import cors from '@koa/cors';
-import connectDB from './config/database';
-import errorMiddleware from './middlewares/errorMiddleware';
-import indexRoutes from './routes/indexRoutes';
+import "dotenv/config";
+import Koa from "koa";
+import bodyParser from "koa-bodyparser";
+import cors from "@koa/cors";
+import connectDB from "./configs/database";
+import errorMiddleware from "./middlewares/errorMiddleware";
+import indexRoutes from "./routes/indexRoutes";
 
 const app = new Koa();
 
@@ -13,11 +13,11 @@ app.use(cors());
 app.use(bodyParser());
 app.use(errorMiddleware());
 
-// Rotas da API
+// API Routes
 app.use(indexRoutes.routes());
 app.use(indexRoutes.allowedMethods());
 
-// Iniciar o servidor
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   connectDB();

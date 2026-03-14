@@ -1,8 +1,8 @@
-import { Context } from 'koa';
-import productService from '../services/productService';
+import { Context } from "koa";
+import productService from "../services/productService";
 
 class productController {
-  // GET /products - Lista todos os produtos
+  // GET /products - Product list
   async index(ctx: Context) {
     try {
       ctx.body = await productService.getAll();
@@ -12,7 +12,7 @@ class productController {
     }
   }
 
-  // GET /products/:id - Busca um produto pelo ID
+  // GET /products/:id - Search for a product by ID
   async show(ctx: Context) {
     try {
       const product = await productService.getById(ctx.params.id);
@@ -27,8 +27,8 @@ class productController {
       ctx.body = { message: "Erro ao buscar produto" };
     }
   }
-  
-  // POST /products - Cria um novo produto
+
+  // POST /products - Create a new product
   async create(ctx: Context) {
     try {
       ctx.body = await productService.create(ctx.request.body);
@@ -38,7 +38,7 @@ class productController {
     }
   }
 
-  // PUT /products/:id - Atualiza um produto existente
+  // PUT /products/:id - Update an existing product
   async update(ctx: Context) {
     try {
       const product = await productService.update(ctx.params.id, ctx.request.body);
@@ -54,7 +54,7 @@ class productController {
     }
   }
 
-  // DELETE /products/:id - Exclui um produto existente
+  // DELETE /products/:id - Delete an existing product
   async delete(ctx: Context) {
     try {
       const product = await productService.delete(ctx.params.id);

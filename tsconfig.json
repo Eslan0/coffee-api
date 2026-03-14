@@ -1,37 +1,26 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "lib": ["ES2020"],
-    "target": "ES2019",
-    "strict": false,
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
     "resolveJsonModule": true,
-    "noEmitOnError": true,
-    "noImplicitThis": true,
-    "outDir": "dist",
-    "rootDir": "."
+    "removeComments": true,
+    "incremental": true
   },
   "include": [
-    // Include root files
-    "./",
-    // Include all ts files
-    "./**/*.ts",
-    // Include all js files
-    "./**/*.js",
-    // Force the JSON files in the src folder to be included
-    "src/**/*.json"
+    "src/**/*.ts",
+    "src/__tests__/**/*.ts"
   ],
-
   "exclude": [
-    "node_modules/",
-    "build/",
-    "dist/",
-    ".cache/",
-    ".tmp/",
-    "next/"
+    "node_modules",
+    "dist",
+    "coverage"
   ]
 }
