@@ -1,4 +1,4 @@
-import { ResponseT } from "@src/interfaces";
+import { ResponseT } from "../interfaces/indexInterfaces";
 
 export const customResponse = <T>({ data, success, error, message, status }: ResponseT<T>) => {
   return {

@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-
 import createHttpError, { InternalServerError } from "http-errors";
-
-import User from "@src/models/User.model";
-import { customResponse, deleteFile } from "@src/utils";
-import { AddCommentT, AuthenticatedRequestBody, IUser, IPost, TPaginationResponse, UpdateCommentT, CommentI, LikeT } from "@src/interfaces";
-import Post from "@src/models/Post.model";
-import { cloudinary } from "@src/middlewares";
+import User from "../models/User";
+import { customResponse, deleteFile } from "../utils/indexUtils";
+import { AddCommentT, AuthenticatedRequestBody, IUser, IPost, TPaginationResponse, UpdateCommentT, CommentI, LikeT } from "../interfaces/indexInterfaces";
+import Post from "../models/Post";
+import { cloudinary } from "../middlewares/indexMiddlewares";
 
 export const createPostService = async (req: AuthenticatedRequestBody<IPost>, res: Response, next: NextFunction) => {
   const { title, content, category } = req.body;

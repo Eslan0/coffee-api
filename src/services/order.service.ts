@@ -3,13 +3,12 @@ import createHttpError, { InternalServerError } from "http-errors";
 import fs from "fs";
 import PDFDocument from "pdfkit";
 import { resolve } from "path";
-
-import { AuthenticatedRequestBody, IUser, OrderT, ProcessingOrderT } from "@src/interfaces";
-import { customResponse } from "@src/utils";
-import Order from "@src/models/Order.model";
-import User from "@src/models/User.model";
-import Product from "@src/models/Product.model";
-import { authorizationRoles } from "@src/constants";
+import { AuthenticatedRequestBody, IUser, IOrder, IProcessingOrder } from "../interfaces/indexInterfaces";
+import { customResponse } from "../utils/indexUtils";
+import Order from "../models/Order";
+import User from "../models/User";
+import Product from "../models/Product";
+import { authorizationRoles } from "../constants";
 
 export const getOrdersService = async (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => {
   try {

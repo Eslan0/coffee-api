@@ -1,11 +1,10 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { InternalServerError } from "http-errors";
-
-import User from "@src/models/User.model";
-import Order from "@src/models/Order.model";
-import { AuthenticatedRequestBody, IUser, TPaginationResponse } from "@src/interfaces";
-import { customResponse } from "@src/utils";
-import { authorizationRoles } from "@src/constants";
+import User from "../models/User";
+import Order from "../models/Order";
+import { AuthenticatedRequestBody, IUser, TPaginationResponse } from "../interfaces/indexInterfaces";
+import { customResponse } from "../utils/indexUtils";
+import { authorizationRoles } from "../constants";
 
 export const managerGetUsersService: RequestHandler = async (req, res, next) => {
   try {

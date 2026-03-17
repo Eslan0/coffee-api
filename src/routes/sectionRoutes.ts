@@ -1,4 +1,4 @@
-import Router from "koa-router";
+import Router from "@koa/router";
 import sectionController from "../controllers/sectionController";
 
 const sectionRoutes = new Router();

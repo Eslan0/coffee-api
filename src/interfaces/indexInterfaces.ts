@@ -4,5 +4,5 @@ export * from "./MessageResponse";
 export * from "./Order";
 export * from "./Post";
 export * from "./Product";
-export * from "./Token";
+export * from "./Section";
 export * from "./User";

@@ -28,7 +28,7 @@ export interface IPost extends mongoose.Document {
   author: mongoose.Types.ObjectId;
   comments: CommentI[];
   likes: LikeT[];
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   createdAt?: string;
   updatedAt?: string;
   category?: string;

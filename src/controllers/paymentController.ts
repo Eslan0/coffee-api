@@ -1,7 +1,6 @@
 import { NextFunction, Response } from "express";
-
-import { AuthenticatedRequestBody, IUser, ProcessingStripeCheckoutT } from "@src/interfaces";
-import { captureStripePaymentService, createStripeCheckoutSessionService, getStripePublicKeyService } from "@src/services";
+import { AuthenticatedRequestBody, IUser, ProcessingStripeCheckoutT } from "../interfaces/indexInterfaces";
+import { captureStripePaymentService, createStripeCheckoutSessionService, getStripePublicKeyService } from "../services/indexServices";
 
 export const getStripePublicKeyController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => getStripePublicKeyService(req, res, next);
 

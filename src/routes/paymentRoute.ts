@@ -1,7 +1,6 @@
 import express from "express";
-
-import { createStripeCheckoutSessionValidation, isAuth } from "../middlewares";
-import { captureStripePaymentController, createStripeCheckoutController, getStripePublicKeyController } from "../controllers";
+import { createStripeCheckoutSessionValidation, isAuth } from "../middlewares/indexMiddlewares";
+import { captureStripePaymentController, createStripeCheckoutController, getStripePublicKeyController } from "../controllers/indexControllers";
 
 const router = express.Router();
 

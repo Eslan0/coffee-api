@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { environmentConfig } from "@src/configs";
+/*import mongoose from "mongoose";
+import { environmentConfig } from "../configs";
 import { productCategory } from "./product";
 
 export const cloudinaryResponse = {
@@ -70,3 +70,4 @@ export const postPayload = {
   content: "content",
   postImage: "https://res.cloudinary.com/decjnna6h/image/upload/v1674051312/users/vbbon1tejm74rq3bjspj.jpg",
 };
+*/

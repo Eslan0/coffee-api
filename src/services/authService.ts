@@ -1,32 +1,29 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
 import { SignOptions } from "jsonwebtoken";
-
-import Token from "@src/models/Token.model";
-import User from "@src/models/User.model";
-import { environmentConfig } from "@src/configs/custom-environment-variables.config";
-
+import User from "../models/User";
+import { envConfig } from "../configs/variables";
 import { customResponse, deleteFile, sendConfirmResetPasswordEmail, sendEmailVerificationEmail, sendResetPasswordEmail } from "@src/utils";
-import { AuthenticatedRequestBody, IUser, ResponseT } from "@src/interfaces";
-import { cloudinary, verifyRefreshToken } from "@src/middlewares";
-import { authorizationRoles } from "@src/constants";
+import { AuthenticatedRequestBody, IUser, ResponseT } from "../interfaces/indexInterfaces";
+import { cloudinary, verifyRefreshToken } from "../middlewares/indexMiddlewares";
+import { authorizationRoles } from "../constants";
 
 export const signupService = async (req: Request, res: Response<ResponseT<null>>, next: NextFunction) => {
   const { email, password, name, surname, confirmPassword, acceptTerms, jobTitle, bio, favoriteAnimal, mobileNumber, gender, dateOfBirth, address, nationality, companyName } = req.body;
 
   let role = authorizationRoles.user;
 
-  if (environmentConfig?.ADMIN_EMAILS && (JSON.parse(environmentConfig.ADMIN_EMAILS) as string[])?.includes(`${email}`)) {
+  if (envConfig?.ADMIN_EMAILS && (JSON.parse(envConfig.ADMIN_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.admin;
-  } else if (environmentConfig?.MANGER_EMAILS && (JSON.parse(environmentConfig?.MANGER_EMAILS) as string[])?.includes(`${email}`)) {
+  } else if (envConfig?.MANGER_EMAILS && (JSON.parse(envConfig?.MANGER_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.manger;
-  } else if (environmentConfig?.MODERATOR_EMAILS && (JSON.parse(environmentConfig?.MODERATOR_EMAILS) as string[])?.includes(`${email}`)) {
+  } else if (envConfig?.MODERATOR_EMAILS && (JSON.parse(envConfig?.MODERATOR_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.moderator;
-  } else if (environmentConfig?.SUPERVISOR_EMAILS && (JSON.parse(environmentConfig?.SUPERVISOR_EMAILS) as string[])?.includes(`${email}`)) {
+  } else if (envConfig?.SUPERVISOR_EMAILS && (JSON.parse(envConfig?.SUPERVISOR_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.supervisor;
-  } else if (environmentConfig?.GUIDE_EMAILS && (JSON.parse(environmentConfig?.GUIDE_EMAILS) as string[])?.includes(`${email}`)) {
+  } else if (envConfig?.GUIDE_EMAILS && (JSON.parse(envConfig?.GUIDE_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.guide;
-  } else if (environmentConfig?.CLIENT_EMAILS && (JSON.parse(environmentConfig?.CLIENT_EMAILS) as string[])?.includes(`${email}`)) {
+  } else if (envConfig?.CLIENT_EMAILS && (JSON.parse(envConfig?.CLIENT_EMAILS) as string[])?.includes(`${email}`)) {
     role = authorizationRoles.client;
   }
 
@@ -74,7 +71,7 @@ export const signupService = async (req: Request, res: Response<ResponseT<null>>
       role,
       profileImage: cloudinaryResult?.secure_url,
       cloudinary_id: cloudinaryResult?.public_id,
-      acceptTerms: acceptTerms || !!(environmentConfig?.ADMIN_EMAILS && (JSON.parse(environmentConfig.ADMIN_EMAILS) as string[])?.includes(`${email}`)),
+      acceptTerms: acceptTerms || !!(envConfig?.ADMIN_EMAILS && (JSON.parse(envConfig.ADMIN_EMAILS) as string[])?.includes(`${email}`)),
     });
 
     const user = await newUser.save();
@@ -84,17 +81,17 @@ export const signupService = async (req: Request, res: Response<ResponseT<null>>
       userId: user._id,
     };
 
-    const accessTokenSecretKey = environmentConfig.ACCESS_TOKEN_SECRET_KEY as string;
+    const accessTokenSecretKey = envConfig.ACCESS_TOKEN_SECRET_KEY as string;
     const accessTokenOptions: SignOptions = {
-      expiresIn: environmentConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
-      issuer: environmentConfig.JWT_ISSUER,
+      expiresIn: envConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
+      issuer: envConfig.JWT_ISSUER,
       audience: String(user._id),
     };
 
-    const refreshTokenSecretKey = environmentConfig.REFRESH_TOKEN_SECRET_KEY as string;
+    const refreshTokenSecretKey = envConfig.REFRESH_TOKEN_SECRET_KEY as string;
     const refreshTokenJwtOptions: SignOptions = {
-      expiresIn: environmentConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
-      issuer: environmentConfig.JWT_ISSUER,
+      expiresIn: envConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
+      issuer: envConfig.JWT_ISSUER,
       audience: String(user._id),
     };
 
@@ -107,7 +104,7 @@ export const signupService = async (req: Request, res: Response<ResponseT<null>>
     token.accessToken = generatedAccessToken;
     token = await token.save();
 
-    const verifyEmailLink = `${environmentConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
+    const verifyEmailLink = `${envConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
 
     // send mail for email verification
     await sendEmailVerificationEmail(email, name, verifyEmailLink);
@@ -170,10 +167,10 @@ export const loginService = async (req: Request, res: Response, next: NextFuncti
       {
         userId: user._id,
       },
-      environmentConfig.ACCESS_TOKEN_SECRET_KEY,
+      envConfig.ACCESS_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(user._id),
       }
     );
@@ -181,10 +178,10 @@ export const loginService = async (req: Request, res: Response, next: NextFuncti
       {
         userId: user._id,
       },
-      environmentConfig.REFRESH_TOKEN_SECRET_KEY,
+      envConfig.REFRESH_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(user._id),
       }
     );
@@ -196,7 +193,7 @@ export const loginService = async (req: Request, res: Response, next: NextFuncti
 
     // check user is verified or not
     if (!user.isVerified || user.status !== "active") {
-      const verifyEmailLink = `${environmentConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
+      const verifyEmailLink = `${envConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
 
       // Again send verification email
       sendEmailVerificationEmail(email, user.name, verifyEmailLink);
@@ -525,10 +522,10 @@ export const refreshTokenService: RequestHandler = async (req, res, next) => {
       {
         userId,
       },
-      environmentConfig.ACCESS_TOKEN_SECRET_KEY,
+      envConfig.ACCESS_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(userId),
       }
     );
@@ -536,10 +533,10 @@ export const refreshTokenService: RequestHandler = async (req, res, next) => {
       {
         userId,
       },
-      environmentConfig.REFRESH_TOKEN_SECRET_KEY,
+      envConfig.REFRESH_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(userId),
       }
     );
@@ -606,10 +603,10 @@ export const sendForgotPasswordMailService: RequestHandler = async (req, res, ne
       {
         userId: user._id,
       },
-      environmentConfig.ACCESS_TOKEN_SECRET_KEY,
+      envConfig.ACCESS_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(user._id),
       }
     );
@@ -617,10 +614,10 @@ export const sendForgotPasswordMailService: RequestHandler = async (req, res, ne
       {
         userId: user._id,
       },
-      environmentConfig.REFRESH_TOKEN_SECRET_KEY,
+      envConfig.REFRESH_TOKEN_SECRET_KEY,
       {
-        expiresIn: environmentConfig.REST_PASSWORD_LINK_EXPIRE_TIME,
-        issuer: environmentConfig.JWT_ISSUER,
+        expiresIn: envConfig.REST_PASSWORD_LINK_EXPIRE_TIME,
+        issuer: envConfig.JWT_ISSUER,
         audience: String(user._id),
       }
     );
@@ -630,7 +627,7 @@ export const sendForgotPasswordMailService: RequestHandler = async (req, res, ne
     token.accessToken = generatedAccessToken;
     token = await token.save();
 
-    const passwordResetEmailLink = `${environmentConfig.WEBSITE_URL}/reset-password?id=${user._id}&token=${token.refreshToken}`;
+    const passwordResetEmailLink = `${envConfig.WEBSITE_URL}/reset-password?id=${user._id}&token=${token.refreshToken}`;
 
     // password Reset Email
     sendResetPasswordEmail(email, user.name, passwordResetEmailLink);
@@ -675,7 +672,7 @@ export const resetPasswordService: RequestHandler = async (req, res, next) => {
     await user.save();
     await token.delete();
 
-    const confirmResetPasswordEmailLink = `${environmentConfig.WEBSITE_URL}/login`;
+    const confirmResetPasswordEmailLink = `${envConfig.WEBSITE_URL}/login`;
 
     sendConfirmResetPasswordEmail(user.email, user.name, confirmResetPasswordEmailLink);
 

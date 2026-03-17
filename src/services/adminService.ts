@@ -2,17 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
 import { SignOptions } from "jsonwebtoken";
 
-import Token from "@src/models/Token.model";
-import User from "@src/models/User.model";
-import Order from "@src/models/Order.model";
-import Post from "@src/models/Post.model";
-import Product from "@src/models/Product.model";
-import { authorizationRoles } from "@src/constants";
-import { cloudinary } from "@src/middlewares";
-import { environmentConfig } from "@src/configs/custom-environment-variables.config";
-
-import { AuthenticatedRequestBody, IUser, IPost, ProcessingOrderT, ProductT, ResponseT, TPaginationResponse, UpdateCommentT } from "@src/interfaces";
-import { customResponse, deleteFile, isValidMongooseObjectId, sendEmailVerificationEmail } from "@src/utils";
+import User from "../models/User";
+import Order from "../models/Order";
+import Post from "../models/Post";
+import Product from "../models/Product";
+import { authorizationRoles } from "../constants";
+import { cloudinary } from "../middlewares/indexMiddlewares";
+import { envConfig } from "../configs/variables";
+import { AuthenticatedRequestBody, IUser, IPost, ProcessingOrderT, IProduct, ResponseT, TPaginationResponse, UpdateCommentT } from "../interfaces/indexInterfaces";
+import { customResponse, deleteFile, isValidMongooseObjectId, sendEmailVerificationEmail } from "../utils/indexUtils";
 
 export const adminAddUserService = async (req: Request, res: Response<ResponseT<null>>, next: NextFunction) => {
   const { email, password, name, surname, confirmPassword, jobTitle, bio, favoriteAnimal, mobileNumber, gender, dateOfBirth, address, nationality, companyName, role } = req.body;
@@ -71,17 +69,17 @@ export const adminAddUserService = async (req: Request, res: Response<ResponseT<
       userId: user._id,
     };
 
-    const accessTokenSecretKey = environmentConfig.ACCESS_TOKEN_SECRET_KEY as string;
+    const accessTokenSecretKey = envConfig.ACCESS_TOKEN_SECRET_KEY as string;
     const accessTokenOptions: SignOptions = {
-      expiresIn: environmentConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
-      issuer: environmentConfig.JWT_ISSUER,
+      expiresIn: envConfig.ACCESS_TOKEN_KEY_EXPIRE_TIME,
+      issuer: envConfig.JWT_ISSUER,
       audience: String(user._id),
     };
 
-    const refreshTokenSecretKey = environmentConfig.REFRESH_TOKEN_SECRET_KEY as string;
+    const refreshTokenSecretKey = envConfig.REFRESH_TOKEN_SECRET_KEY as string;
     const refreshTokenJwtOptions: SignOptions = {
-      expiresIn: environmentConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
-      issuer: environmentConfig.JWT_ISSUER,
+      expiresIn: envConfig.REFRESH_TOKEN_KEY_EXPIRE_TIME,
+      issuer: envConfig.JWT_ISSUER,
       audience: String(user._id),
     };
 
@@ -94,7 +92,7 @@ export const adminAddUserService = async (req: Request, res: Response<ResponseT<
     token.accessToken = generatedAccessToken;
     token = await token.save();
 
-    const verifyEmailLink = `${environmentConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
+    const verifyEmailLink = `${envConfig.WEBSITE_URL}/verify-email?id=${user._id}&token=${token.refreshToken}`;
 
     // send mail for email verification
     sendEmailVerificationEmail(email, name, verifyEmailLink);
@@ -132,13 +130,9 @@ export const adminUpdateAuthService = async (req: AuthenticatedRequestBody<IUser
     surname,
     email,
     dateOfBirth,
-    gender,
     mobileNumber,
-    bio,
     companyName,
-    nationality,
     address,
-    favoriteAnimal,
     jobTitle,
     acceptTerms,
     // role,
@@ -191,16 +185,12 @@ export const adminUpdateAuthService = async (req: AuthenticatedRequestBody<IUser
     user.name = name || user.name;
     user.surname = surname || user.surname;
     user.email = email || user.email;
-    user.gender = gender || user.gender;
     user.dateOfBirth = dateOfBirth || user.dateOfBirth;
     user.mobileNumber = mobileNumber || user.mobileNumber;
     user.acceptTerms = acceptTerms || user.acceptTerms;
-    user.bio = bio || user.bio;
     user.companyName = companyName || user.companyName;
-    user.nationality = nationality || user.nationality;
     user.address = address || user.address;
     user.jobTitle = jobTitle || user.jobTitle;
-    user.favoriteAnimal = favoriteAnimal || user.favoriteAnimal;
     user.role = req.body.role || user.role;
     user.status = req.body.status || user.status;
     user.profileImage = req.file?.filename ? cloudinaryResult?.secure_url : user.profileImage;
@@ -385,7 +375,6 @@ export const adminAddProductService = async (req: AuthenticatedRequestBody<Produ
           surname: req.user?.surname,
           email: req.user?.email,
           dateOfBirth: req.user?.dateOfBirth,
-          gender: req.user?.gender,
           createdAt: req.user?.createdAt,
           updatedAt: req.user?.updatedAt,
           role: req.user?.role,

@@ -1,10 +1,8 @@
 import { NextFunction, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
-
-import User from "@src/models/User.model";
-
-import { AuthenticatedRequestBody, IUser } from "@src/interfaces";
-import { customResponse } from "@src/utils";
+import User from "../models/User";
+import { AuthenticatedRequestBody, IUser } from "../interfaces/indexInterfaces";
+import { customResponse } from "../utils/indexUtils";
 
 export const followUserService = async (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => {
   try {

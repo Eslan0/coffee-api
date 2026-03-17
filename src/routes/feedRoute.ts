@@ -1,5 +1,4 @@
 import express from "express";
-
 import {
   addCommentInPostController,
   createPostController,
@@ -18,7 +17,7 @@ import {
   updateCommentInPostController,
   updatePostController,
   getTimelinePostsController,
-} from "../controllers";
+} from "../controllers/indexControllers";
 import {
   addCommentValidation,
   addPostValidation,
@@ -30,7 +29,7 @@ import {
   updateCommentValidation,
   updatePostValidation,
   uploadImage,
-} from "../middlewares";
+} from "../middlewares/indexMiddlewares";
 
 const router = express.Router();
 

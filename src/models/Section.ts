@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { ISection } from "../interfaces/indexInterfaces";
 
-// Schema
 const SectionSchema = new Schema<ISection>(
   {
     name: {
@@ -16,16 +16,11 @@ const SectionSchema = new Schema<ISection>(
     ],
   },
   {
-    timestamps: true, // Creates createdAt and updatedAt automatically.
-    toJSON: {
-      transform: (_, ret) => {
-        delete ret.__v;
-        return ret;
-      },
-    },
+    timestamps: true,
+    versionKey: false,
   }
 );
 
-const Section: Model<ISection> = mongoose.models.Section || mongoose.model<ISection>("Section", SectionSchema);
+const Section: Model<ISection> = mongoose.model<ISection>("Section", SectionSchema);
 
 export default Section;

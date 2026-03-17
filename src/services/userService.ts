@@ -18,6 +18,12 @@ class userService {
     const user = await User.findByIdAndUpdate(id, userData, { new: true });
     return user;
   }
+
+  // Exclui um usuário existente
+  async delete(id: string) {
+    const user = await User.findByIdAndDelete(id);
+    return user;
+  }
 }
 
 export default new userService();

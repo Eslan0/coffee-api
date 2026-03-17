@@ -1,14 +1,13 @@
 import Cloudinary from "cloudinary";
-
-import { environmentConfig } from "@src/configs";
+import { envConfig } from "../../configs";
 
 export const cloudinary = Cloudinary.v2;
 
 // Cloudinary configuration
 cloudinary.config({
-  cloud_name: environmentConfig.CLOUDINARY_CLOUD_NAME,
-  api_key: environmentConfig.CLOUDINARY_API_KEY,
-  api_secret: environmentConfig.CLOUDINARY_API_SECRET,
+  cloud_name: envConfig.CLOUDINARY_CLOUD_NAME,
+  api_key: envConfig.CLOUDINARY_API_KEY,
+  api_secret: envConfig.CLOUDINARY_API_SECRET,
 });
 
 export default cloudinary;

@@ -4,12 +4,12 @@
 import nodemailer from "nodemailer";
 // @ts-ignore
 import sendGridTransport from "nodemailer-sendgrid-transport";
-import { environmentConfig } from "@src/configs/custom-environment-variables.config";
+import { envConfig } from "../configs/variables";
 
 export const transporter = nodemailer.createTransport(
   sendGridTransport({
     auth: {
-      api_key: environmentConfig.SEND_GRID_API_KEY,
+      api_key: envConfig.SEND_GRID_API_KEY,
     },
   })
 );
@@ -42,7 +42,7 @@ let htmlContent = ` <div style="max-width: 700px; margin:auto; border: 10px soli
 
 export const sendEmail = (userEmail: any) => {
   const emailContent = {
-    from: environmentConfig?.ADMIN_SEND_GRID_EMAIL,
+    from: envConfig?.ADMIN_SEND_GRID_EMAIL,
     to: userEmail,
     subject: "Signup succeeded!",
     html: htmlContent,
@@ -192,7 +192,7 @@ export const sendResetPasswordEmail = (userEmail: string, userName: string, link
 `;
 
   const emailContent = {
-    from: environmentConfig.ADMIN_SEND_GRID_EMAIL,
+    from: envConfig.ADMIN_SEND_GRID_EMAIL,
     to: userEmail,
     subject: "Password Change Request",
     html: htmlContent,
@@ -343,7 +343,7 @@ export const sendConfirmResetPasswordEmail = (userEmail: string, userName: strin
 `;
 
   const emailContent = {
-    from: environmentConfig.ADMIN_SEND_GRID_EMAIL,
+    from: envConfig.ADMIN_SEND_GRID_EMAIL,
     to: userEmail,
     subject: "Password Reset Success",
     html: htmlContent,
@@ -492,7 +492,7 @@ export const sendEmailVerificationEmail = (userEmail: string, userName: string, 
 `;
 
   const emailContent = {
-    from: environmentConfig.ADMIN_SEND_GRID_EMAIL,
+    from: envConfig.ADMIN_SEND_GRID_EMAIL,
     to: userEmail,
     subject: "Email Verification",
     html: htmlContent,

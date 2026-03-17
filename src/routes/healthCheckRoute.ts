@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
-
-import { ResponseT } from "../interfaces";
-import { customResponse } from "../utils";
+import { ResponseT } from "../interfaces/indexInterfaces";
+import { customResponse } from "../utils/indexUtils";
 
 const router = express.Router();
 

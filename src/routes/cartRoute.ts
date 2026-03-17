@@ -1,7 +1,6 @@
 import express from "express";
-
-import { isAuth, productIdValidation } from "../middlewares";
-import { addProductToCartController, clearCartController, deleteProductFromCartController, getCartController } from "../controllers";
+import { isAuth, productIdValidation } from "../middlewares/indexMiddlewares";
+import { addProductToCartController, clearCartController, deleteProductFromCartController, getCartController } from "../controllers/indexControllers";
 
 const router = express.Router();
 

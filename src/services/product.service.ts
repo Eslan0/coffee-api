@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
 
-import { AddProductToCartT, AuthenticatedRequestBody, IUser, OrderT, TPaginationResponse, ProductT, ReviewsT, ReviewProductT } from "@src/interfaces";
-import { customResponse, isValidMongooseObjectId } from "@src/utils";
-import Product from "@src/models/Product.model";
-import User from "@src/models/User.model";
+import { AddIProductoCartT, AuthenticatedRequestBody, IUser, IOrder, TPaginationResponse, IProduct, IReviews, IReviewProduct } from "../interfaces/indexInterfaces";
+import { customResponse, isValidMongooseObjectId } from "../utils/indexUtils";
+import Product from "../models/Product";
+import User from "../models/User";
 
 export const getProductsService = async (_req: Request, res: TPaginationResponse) => {
   if (res?.paginatedResults) {
@@ -95,7 +95,7 @@ export const getProductService = async (req: AuthenticatedRequestBody<IUser>, re
   }
 };
 
-export const addProductToCartService = async (req: AuthenticatedRequestBody<AddProductToCartT>, res: Response, next: NextFunction) => {
+export const addIProductoCartService = async (req: AuthenticatedRequestBody<AddIProductoCartT>, res: Response, next: NextFunction) => {
   try {
     const product = await Product.findById(req.body.productId);
 
@@ -130,7 +130,7 @@ export const addProductToCartService = async (req: AuthenticatedRequestBody<AddP
   }
 };
 
-export const deleteProductFromCartService = async (req: AuthenticatedRequestBody<AddProductToCartT>, res: Response, next: NextFunction) => {
+export const deleteProductFromCartService = async (req: AuthenticatedRequestBody<AddIProductoCartT>, res: Response, next: NextFunction) => {
   if (!isValidMongooseObjectId(req.body.productId) || !req.body.productId) {
     return next(createHttpError(422, `Invalid request`));
   }
@@ -168,7 +168,7 @@ export const deleteProductFromCartService = async (req: AuthenticatedRequestBody
   }
 };
 
-export const addReviewService = async (req: AuthenticatedRequestBody<ReviewProductT>, res: Response, next: NextFunction) => {
+export const addReviewService = async (req: AuthenticatedRequestBody<IReviewProduct>, res: Response, next: NextFunction) => {
   try {
     const { productId, rating, comment } = req.body;
 
@@ -178,28 +178,28 @@ export const addReviewService = async (req: AuthenticatedRequestBody<ReviewProdu
       comment,
       rating: Number(rating),
     };
-    const product = (await Product.findById(productId)) as ProductT;
+    const product = (await Product.findById(productId)) as IProduct;
 
     if (!product) {
       return next(new createHttpError.BadRequest());
     }
 
-    const isAlreadyReview = product.reviews.find((rev: ReviewsT) => rev.user.toString() === req.user?._id.toString());
+    const isAlreadyReview = product.reviews.find((rev: IReviews) => rev.user.toString() === req.user?._id.toString());
 
     if (isAlreadyReview) {
-      product.reviews.forEach((rev: ReviewsT) => {
+      product.reviews.forEach((rev: IReviews) => {
         if (rev.user.toString() === req.user?._id.toString()) {
           rev.comment = comment;
           rev.rating = rating;
         }
       });
     } else {
-      product.reviews.unshift(review as ReviewsT);
+      product.reviews.unshift(review as IReviews);
       product.numberOfReviews = product.reviews.length;
     }
 
     //  adjust average ratings
-    const averageRating = product.reviews.reduce((accumulator: number, rev: ReviewsT) => accumulator + Number(rev.rating || 0), 0) / product.reviews.length;
+    const averageRating = product.reviews.reduce((accumulator: number, rev: IReviews) => accumulator + Number(rev.rating || 0), 0) / product.reviews.length;
 
     product.ratings = Number(averageRating.toFixed(1));
 
@@ -225,29 +225,29 @@ export const addReviewService = async (req: AuthenticatedRequestBody<ReviewProdu
   }
 };
 
-export const deleteReviewService = async (req: AuthenticatedRequestBody<ReviewProductT>, res: Response, next: NextFunction) => {
+export const deleteReviewService = async (req: AuthenticatedRequestBody<IReviewProduct>, res: Response, next: NextFunction) => {
   try {
     if (!isValidMongooseObjectId(req.params.productId) || !req.params.productId) {
       return next(createHttpError(422, `Invalid request`));
     }
 
-    const product = (await Product.findById(req.params.productId)) as ProductT;
+    const product = (await Product.findById(req.params.productId)) as IProduct;
 
     if (!product) {
       return next(new createHttpError.BadRequest());
     }
 
-    const isAlreadyReview = product.reviews.find((rev: ReviewsT) => rev.user.toString() === req.user?._id.toString());
+    const isAlreadyReview = product.reviews.find((rev: IReviews) => rev.user.toString() === req.user?._id.toString());
 
     if (!isAlreadyReview) {
       return next(createHttpError(403, `Auth Failed (Unauthorized)`));
     }
 
-    const filteredReviews = product.reviews.filter((rev: ReviewsT) => rev.user.toString() !== req.user?._id.toString());
+    const filteredReviews = product.reviews.filter((rev: IReviews) => rev.user.toString() !== req.user?._id.toString());
 
     if (filteredReviews.length) {
       //  adjust average ratings
-      const averageRating = filteredReviews.reduce((accumulator: number, rev: ReviewsT) => accumulator + Number(rev.rating || 0), 0) / filteredReviews.length;
+      const averageRating = filteredReviews.reduce((accumulator: number, rev: IReviews) => accumulator + Number(rev.rating || 0), 0) / filteredReviews.length;
       product.ratings = Number(averageRating.toFixed(1));
       product.reviews = filteredReviews;
       product.numberOfReviews = filteredReviews.length;
@@ -278,13 +278,13 @@ export const deleteReviewService = async (req: AuthenticatedRequestBody<ReviewPr
   }
 };
 
-export const getReviewsService = async (req: AuthenticatedRequestBody<ReviewProductT>, res: Response, next: NextFunction) => {
+export const getReviewsService = async (req: AuthenticatedRequestBody<IReviewProduct>, res: Response, next: NextFunction) => {
   try {
     if (!isValidMongooseObjectId(req.params.productId) || !req.params.productId) {
       return next(createHttpError(422, `Invalid request`));
     }
 
-    const product = (await Product.findById(req.params.productId)) as ProductT;
+    const product = (await Product.findById(req.params.productId)) as IProduct;
 
     if (!product) {
       return next(new createHttpError.BadRequest());

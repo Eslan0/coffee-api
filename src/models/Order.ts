@@ -1,34 +1,47 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IOrder } from "../interfaces";
+import { IOrder } from "../interfaces/indexInterfaces";
+import { orderStatus } from "../constants";
 
-// Schema
 const OrderSchema = new Schema<IOrder>(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    shippingInfo: {
+      address: { type: String, required: true, trim: true, lowercase: true },
+      phoneNo: { type: String, required: true, trim: true },
+      zipCode: { type: String, required: true, trim: true, lowercase: true },
+      street: { type: String, trim: true, lowercase: true },
+      city: { type: String, required: true, trim: true, lowercase: true },
+      country: { type: String, required: true, trim: true, lowercase: true },
     },
-    products: [
+    user: {
+      userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+      email: { type: String, required: true },
+      name: { type: String, trim: true, lowercase: true, required: true },
+      surname: { type: String, trim: true, lowercase: true, required: true },
+      phone: { type: String, required: true },
+    },
+    orderItems: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
+        product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+        quantity: { type: Number, required: true },
       },
     ],
-    total: {
-      type: Number,
-      required: true,
-    },
+    paymentInfo: { type: String, required: true },
+    textAmount: { type: Number, required: true, default: 0 },
+    shippingAmount: { type: Number, required: true, default: 0 },
+    totalAmount: { type: Number, required: true },
     status: {
       type: String,
       required: true,
+      enum: Object.values(orderStatus),
+      default: orderStatus.pending,
+      trim: true,
     },
+    deliveredAt: { type: Date },
   },
   {
-    timestamps: true, // Creates createdAt and updatedAt automatically.
-    toJSON: {
-      virtuals: true, // Expose virtual fields.
-    },
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

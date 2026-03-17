@@ -1,48 +1,157 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IProduct } from "../interfaces";
+import { IProduct } from "../interfaces/indexInterfaces";
+import { productCategory } from "../constants";
 
-// Schema
-const ProductSchema = new Schema<IProduct>(
+const ProductSchema: Schema<IProduct> = new Schema(
   {
     name: {
       type: String,
-      required: [true, "O nome é obrigatório"],
+      required: [true, "Please provide name"],
+      maxLength: 100,
+      minlength: 3,
+      trim: true,
+      lowercase: true,
+    },
+    price: {
+      type: Number,
+      required: [true, "Please provide price"],
+    },
+    brand: {
+      type: String,
+      required: [true, "Please product brand"],
       trim: true,
     },
     description: {
       type: String,
-      required: [true, "A descrição é obrigatória"],
+      required: [true, "Please provide description"],
+      // maxLength: 500,
+      minlength: 15,
+      trim: true,
+      lowercase: true,
+    },
+    productImage: {
+      type: String,
+      required: [false, "Please provide product image"],
       trim: true,
     },
-    price: {
-      type: Number,
-      required: [true, "O preço é obrigatório"],
-    },
-    quantity: {
-      type: Number,
-      required: [true, "A quantidade é obrigatória"],
-    },
-    image: {
+    productImages: [
+      {
+        url: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        cloudinary_id: {
+          type: String,
+          required: false,
+        },
+      },
+    ],
+    category: {
       type: String,
-      required: [true, "A imagem é obrigatória"],
+      enum: {
+        values: [
+          productCategory.womenClothe,
+          productCategory.menClothe,
+          productCategory.menShoe,
+          productCategory.womenShoe,
+          productCategory.toy,
+          productCategory.football,
+          productCategory.book,
+          productCategory.PersonalComputer,
+          productCategory.jewelery,
+          productCategory.electronic,
+          productCategory.sport,
+          productCategory.all,
+        ],
+        message: `Please select category only from short listed option (${productCategory.all},
+        ${productCategory.womenClothe},
+          ${productCategory.menClothe},
+          ${productCategory.menClothe},
+          ${productCategory.womenShoe},
+          ${productCategory.toy},
+          ${productCategory.football},
+          ${productCategory.book},
+          ${productCategory.PersonalComputer},
+          ${productCategory.jewelery},
+          ${productCategory.electronic},
+          ${productCategory.sport})`,
+      },
+      default: productCategory.all,
+      trim: true,
+      lowercase: true,
+      required: [true, "Category is required please select one"],
+    },
+    stock: {
+      type: String,
+      required: false,
+      maxLength: 50,
+      minlength: 3,
+      trim: true,
+      lowercase: true,
+      default: "in stock - order soon",
     },
     section: {
       type: Schema.Types.ObjectId,
       ref: "Section",
       required: [true, "A seção é obrigatória"],
     },
+    numberOfReviews: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    reviews: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User", // add relationship
+          required: [true, "User is required"],
+        },
+        name: {
+          type: String,
+          required: [true, ""],
+          trim: true,
+          lowercase: true,
+        },
+        rating: {
+          type: Number,
+          required: false,
+          default: 0,
+        },
+        comment: {
+          type: String,
+          required: false,
+        },
+      },
+    ],
+    ratings: {
+      type: Number,
+      required: false,
+      maxLength: 5,
+      trim: true,
+      lowercase: true,
+      default: 0,
+    },
+    user: {
+      // every products shuold blong to user
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // add relationship
+      required: [true, "User is required"],
+    },
   },
   {
-    timestamps: true, // Creates createdAt and updatedAt automatically.
-    toJSON: {
-      transform: (_, ret) => {
-        delete ret.__v;
-        return ret;
-      },
-    },
+    timestamps: true,
+    versionKey: false,
   }
 );
 
-const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
+ProductSchema.post("save", function () {
+  if (process?.env?.NODE_ENV && process.env.NODE_ENV === "development") {
+    console.log("Middleware called after saving the product is (product is been Save )", this);
+  }
+});
+
+const Product: Model<IProduct> = mongoose.model<IProduct>("Product", ProductSchema);
 
 export default Product;

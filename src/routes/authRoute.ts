@@ -1,5 +1,4 @@
 import express from "express";
-
 import {
   isAuth,
   loginUserValidation,
@@ -11,7 +10,7 @@ import {
   uploadImage,
   userIdValidation,
   verifyUserMailValidation,
-} from "../middlewares";
+} from "../middlewares/indexMiddlewares";
 import {
   getAuthProfileController,
   loginController,
@@ -23,7 +22,7 @@ import {
   sendForgotPasswordMailController,
   signupController,
   verifyEmailController,
-} from "../controllers";
+} from "../controllers/indexControllers";
 
 const router = express.Router();
 

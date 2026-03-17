@@ -1,12 +1,11 @@
 import { NextFunction, Response } from "express";
 import createHttpError from "http-errors";
-
 import Stripe from "stripe";
-import { customResponse } from "@src/utils";
-import { environmentConfig } from "@src/configs";
-import { AuthenticatedRequestBody, IUser, ProcessingStripeCheckoutT } from "@src/interfaces";
+import { customResponse } from "../utils/indexUtils";
+import { envConfig } from "../configs";
+import { AuthenticatedRequestBody, IUser, ProcessingStripeCheckoutT } from "../interfaces/indexInterfaces";
 
-const stripe = new Stripe(environmentConfig.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(envConfig.STRIPE_SECRET_KEY as string, {
   apiVersion: "2022-11-15",
   appInfo: {
     // For sample support and debugging, not required for production:
@@ -20,7 +19,7 @@ const stripe = new Stripe(environmentConfig.STRIPE_SECRET_KEY as string, {
 export const getStripePublicKeyService = async (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => {
   try {
     const data = {
-      stripeKey: environmentConfig.STRIPE_PUBLIC_KEY,
+      stripeKey: envConfig.STRIPE_PUBLIC_KEY,
     };
 
     return res.status(200).send(
@@ -139,8 +138,8 @@ export const createStripeCheckoutSessionService = async (req: AuthenticatedReque
       },
       line_items: lineItems,
       mode: "payment",
-      success_url: `${environmentConfig.WEBSITE_URL}/checkout-success`,
-      cancel_url: `${environmentConfig.WEBSITE_URL}/checkout`,
+      success_url: `${envConfig.WEBSITE_URL}/checkout-success`,
+      cancel_url: `${envConfig.WEBSITE_URL}/checkout`,
     });
 
     const data = {

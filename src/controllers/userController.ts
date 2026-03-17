@@ -1,9 +1,9 @@
-import { Context } from "koa";
+import { Context, Middleware } from "koa";
 import userService from "../services/userService";
 
 class userController {
-  // GET /users/:id - Search for a user by ID
-  async show(ctx: Context) {
+// GET /users/:id - Search for a user by ID
+  async show (ctx: Context){
     try {
       const userId = ctx.params.id;
       const user = await userService.getById(userId);
@@ -16,7 +16,7 @@ class userController {
   }
 
   // POST /users - Create a new user
-  async create(ctx: Context) {
+  async create (ctx: Context) {
     try {
       const userData = ctx.request.body;
       const newUser = await userService.create(userData);
@@ -29,7 +29,7 @@ class userController {
   }
 
   // PUT /users/:id - Update an existing user
-  async update(ctx: Context) {
+  async update (ctx: Context) {
     try {
       const userId = ctx.params.id;
       const userData = ctx.request.body;
@@ -41,6 +41,29 @@ class userController {
       ctx.body = { message: "Erro ao atualizar usuário", error };
     }
   }
-}
+
+  // DELETE /users/:id - Delete an existing user
+  async delete(ctx: Context) {
+    try {
+      const userId = ctx.params.id;
+      const deletedUser = await userService.delete(userId);
+
+      ctx.body = deletedUser;
+    } catch (error) {
+      ctx.status = 400; // Validation error or malformed data
+      ctx.body = { message: "Erro ao excluir usuário", error };
+    }
+  }
+};
 
 export default new userController();
+/*
+import { Response, NextFunction } from "express";
+
+import { followUserService, unFollowUserService } from "../services";
+import { AuthenticatedRequestBody, IUser } from "../interfaces";
+
+export const followUserController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => followUserService(req, res, next);
+
+export const unFollowUserController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => unFollowUserService(req, res, next);
+*/

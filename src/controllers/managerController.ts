@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-
-import { managerGetOrdersService, managerGetPostsService, managerGetUsersService } from "@src/services";
-
-import { AuthenticatedRequestBody, IUser, TPaginationResponse } from "@src/interfaces";
+import { managerGetOrdersService, managerGetPostsService, managerGetUsersService } from "../services/indexServices";
+import { AuthenticatedRequestBody, IUser, TPaginationResponse } from "../interfaces/indexInterfaces";
 
 export const managerGetUsersController = (req: Request, res: Response, next: NextFunction) => managerGetUsersService(req, res, next);
 

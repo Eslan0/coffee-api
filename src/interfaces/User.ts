@@ -1,32 +1,15 @@
 import { Document } from "mongoose";
-// Data interface
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password?: string; // Optional for when we hide it on exit.
-  created: Date;
-  updated: Date;
-}
+import { Context } from "koa";
 
-export interface FollowT {
-  name: string;
-  surname: string;
-  profileImage?: string;
-  bio?: string;
-  userId?: string;
-}
 export interface IUser extends Document {
   name: string;
   surname: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   role?: string;
   acceptTerms: boolean;
   mobileNumber?: string;
-  bio?: string;
-  favoriteAnimal?: string;
-  nationality?: string;
   companyName?: string;
   profileImage?: string;
   jobTitle?: string;
@@ -41,7 +24,6 @@ export interface IUser extends Document {
   token?: string;
   accessToken?: string;
   refreshToken?: string;
-  gender?: string;
   confirmationCode?: string;
   resetPasswordToken?: string;
   resetPasswordExpires?: string;
@@ -54,22 +36,24 @@ export interface IUser extends Document {
     }[];
   };
   cloudinary_id?: string;
-  followers: string[];
-  following: string[];
-  friends: string[];
 }
 
-export interface IRequestUser extends Request {
-  user: IUser;
-}
-
-export interface IAuthRequest extends Request {
+// Authentication
+export interface IAuthRequest extends Context {
   headers: { authorization?: string; Authorization?: string };
-  cookies: { authToken?: string; accessToken?: string; refreshToken?: string };
   user?: IUser;
 }
 
+// Type for item in shopping cart
 export type CartItemT = {
   productId: string;
   quantity: number;
 };
+
+export interface IUserDocument extends IUser, Document {
+  comparePassword(password: string): Promise<boolean>;
+  createJWT(): string;
+  clearCart(): Promise<void>;
+  addToCart(prodId: string, doDecrease: boolean): Promise<boolean>;
+  removeFromCart(prodId: string): Promise<void>;
+}

@@ -1,10 +1,9 @@
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import { NextFunction, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
-
-import User from "@src/models/User.model";
-import { environmentConfig } from "@src/configs/custom-environment-variables.config";
-import { IAuthRequest, IUser } from "@src/interfaces";
+import User from "../../models/User";
+import { envConfig } from "../../configs/variables";
+import { IAuthRequest, IUser } from "../../interfaces/indexInterfaces";
 
 export const isAuth = async (req: IAuthRequest, res: Response, next: NextFunction) => {
   const authHeader = (req && req.headers.authorization) || (req && req.headers.Authorization);
@@ -14,7 +13,7 @@ export const isAuth = async (req: IAuthRequest, res: Response, next: NextFunctio
     return next(createHttpError(401, "Auth Failed (Invalid Credentials)"));
   }
 
-  jwt.verify(token, environmentConfig.ACCESS_TOKEN_SECRET_KEY as jwt.Secret, async (err: VerifyErrors | null, decodedUser: any) => {
+  jwt.verify(token, envConfig.ACCESS_TOKEN_SECRET_KEY as jwt.Secret, async (err: VerifyErrors | null, decodedUser: any) => {
     if (err) {
       // JsonWebTokenError or token has expired
       const errorMessage = err.name === "JsonWebTokenError" ? "Auth Failed (Unauthorized)" : err.message;

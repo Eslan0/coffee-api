@@ -1,9 +1,17 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { ProductT } from "./Product";
+import { IProduct } from "./Product";
 import { IUser } from "./User";
 
 export interface IOrder extends Document {
+  orderItems: { quantity: number; product: mongoose.Schema.Types.ObjectId }[];
   user: Schema.Types.ObjectId;
+  shippingInfo: ShippingInfoT;
+  paymentInfo: string;
+  textAmount: number;
+  shippingAmount: number;
+  totalAmount: number;
+  orderStatus: string;
+  deliveredAt: Date;
   products: Schema.Types.ObjectId[];
   total: number;
   status: string;
@@ -24,20 +32,6 @@ export interface ShippingInfoT {
   city: string;
 }
 
-export interface OrderT extends Document {
-  orderItems: { quantity: number; product: mongoose.Schema.Types.ObjectId }[];
-  user: OrderedUser;
-  shippingInfo: ShippingInfoT;
-  paymentInfo: string;
-  textAmount: number;
-  shippingAmount: number;
-  totalAmount: number;
-  orderStatus: string;
-  deliveredAt: Date;
-}
-
-export interface ProcessingOrderT extends IUser, OrderT {}
-
 export interface ProcessingStripeCheckoutT extends IUser {
-  orderItems: { quantity: number; product: ProductT }[];
+  orderItems: { quantity: number; product: IProduct }[];
 }

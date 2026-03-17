@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-
-import { moderatorGetUsersService } from "@src/services/moderator.service";
+import { moderatorGetUsersService } from "../services/moderatorService";
 
 export const moderatorGetUsersController = (req: Request, res: Response, next: NextFunction) => moderatorGetUsersService(req, res, next);

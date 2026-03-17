@@ -27,10 +27,10 @@ import {
   adminClearAllProductsService,
   adminDeleteAllCommentInPostService,
   adminDeleteCommentInPostService,
-} from "@src/services";
-import { AuthenticatedRequestBody, IUser, IPost, ProcessingOrderT, ProductT, TPaginationResponse, UpdateCommentT } from "@src/interfaces";
+} from "../services/indexServices";
+import { AuthenticatedRequestBody, IUser, IPost, IProcessingOrder, IProduct, TPaginationResponse, UpdateCommentT } from "../interfaces/indexInterfaces";
 
-export const adminUpdateOrderStatusController = (req: AuthenticatedRequestBody<ProcessingOrderT>, res: Response, next: NextFunction) => adminUpdateOrderStatusService(req, res, next);
+export const adminUpdateOrderStatusController = (req: AuthenticatedRequestBody<IProcessingOrder>, res: Response, next: NextFunction) => adminUpdateOrderStatusService(req, res, next);
 
 export const adminGetUsersController = (req: Request, res: TPaginationResponse) => adminGetUsersService(req, res);
 
@@ -46,9 +46,9 @@ export const adminGetProductsController = (req: Request, res: TPaginationRespons
 
 export const adminGetProductController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => adminGetProductService(req, res, next);
 
-export const adminAddProductController = (req: AuthenticatedRequestBody<ProductT>, res: Response, next: NextFunction) => adminAddProductService(req, res, next);
+export const adminAddProductController = (req: AuthenticatedRequestBody<IProduct>, res: Response, next: NextFunction) => adminAddProductService(req, res, next);
 
-export const adminUpdateProductController = (req: AuthenticatedRequestBody<ProductT>, res: Response, next: NextFunction) => adminUpdateProductService(req, res, next);
+export const adminUpdateProductController = (req: AuthenticatedRequestBody<IProduct>, res: Response, next: NextFunction) => adminUpdateProductService(req, res, next);
 
 export const adminDeleteProductController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => adminDeleteProductService(req, res, next);
 

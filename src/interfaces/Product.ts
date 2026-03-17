@@ -6,21 +6,6 @@ export interface IProduct extends Document {
   description: string;
   price: number;
   quantity: number;
-  image: string;
-  section: Schema.Types.ObjectId;
-}
-
-export interface ReviewsT {
-  user: mongoose.Schema.Types.ObjectId;
-  name: string;
-  rating?: number;
-  comment: string;
-}
-
-export interface ProductT extends Document {
-  name: string;
-  description: string;
-  price: number;
   productImage: string;
   productImages: {
     url: string;
@@ -30,18 +15,26 @@ export interface ProductT extends Document {
   category: string;
   stock?: string;
   numberOfReviews: number;
-  reviews: ReviewsT[];
+  reviews: IReviews[];
   ratings?: number;
-  user: mongoose.Schema.Types.ObjectId;
-  _id: string;
+  user: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   createdAt?: string;
   updatedAt?: string;
+  section: mongoose.Types.ObjectId;
 }
 
-export interface AddProductToCartT extends IUser {
+export interface IReviews {
+  user: mongoose.Types.ObjectId;
+  name: string;
+  rating?: number;
+  comment: string;
+}
+
+export interface IAddProductToCart extends IUser {
   productId: string;
 }
-export interface ReviewProductT extends IUser {
+export interface IReviewProduct extends IUser {
   productId: string;
   rating: number;
   comment: string;

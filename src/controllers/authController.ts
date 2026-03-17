@@ -11,8 +11,8 @@ import {
   removeAuthService,
   updateAuthService,
   resetPasswordService,
-} from "@src/services";
-import { AuthenticatedRequestBody, IUser } from "@src/interfaces";
+} from "../services/indexServices";
+import { AuthenticatedRequestBody, IUser } from "../interfaces/indexInterfaces";
 
 export const signupController = (req: Request, res: Response, next: NextFunction) => signupService(req, res, next);
 

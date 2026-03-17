@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-
-import { postCategory } from "@src/constants";
-import { IPost } from "@src/interfaces";
+import { postCategory } from "../constants";
+import { IPost } from "../interfaces/indexInterfaces";
 
 export const PostSchema: Schema<IPost> = new Schema(
   {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AddCommentT, AuthenticatedRequestBody, IUser, IPost, TPaginationResponse, UpdateCommentT } from "@src/interfaces";
+import { AddCommentT, AuthenticatedRequestBody, IUser, IPost, TPaginationResponse, UpdateCommentT } from "../interfaces/indexInterfaces";
 import {
   addCommentInPostService,
   createPostService,
@@ -18,7 +18,7 @@ import {
   likePostService,
   updateCommentInPostService,
   updatePostService,
-} from "@src/services";
+} from "../services/indexServices";
 
 export const getPostsController = (req: Request, res: TPaginationResponse) => getPostsService(req, res);
 

@@ -1,4 +1,4 @@
-import Router from "koa-router";
+import Router from "@koa/router";
 import homeRoutes from "./homeRoutes";
 import userRoutes from "./userRoutes";
 import sectionRoutes from "./sectionRoutes";

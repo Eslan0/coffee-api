@@ -1,10 +1,11 @@
-import dotenv from "dotenv-safe";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-export const environmentConfig = {
-  MONGODB_CONNECTION_STRING: process.env.MONGODB_CONNECTION_STRING,
-  TEST_ENV_MONGODB_CONNECTION_STRING: process.env.TEST_ENV_MONGODB_CONNECTION_STRING,
+export const envConfig = {
+  MONGO_URI: process.env.MONGO_URI,
+  USE_MEMORY_DB: process.env.USE_MEMORY_DB,
+  TEST_ENV_MONGODB: process.env.TEST_ENV_MONGODB,
   TOKEN_SECRET: process.env.TOKEN_SECRET,
   WEBSITE_URL: process.env.WEBSITE_URL,
   API_URL: process.env.API_URL,
@@ -34,4 +35,4 @@ export const environmentConfig = {
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
 };
 
-export default environmentConfig;
+export default envConfig;

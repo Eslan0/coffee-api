@@ -1,7 +1,5 @@
-import Router from "koa-router";
+import Router from "@koa/router";
 import orderController from "../controllers/orderController";
-import { isAuth, orderIdValidation, processingOrderValidation } from "../middlewares/index";
-import { clearAllOrdersController, clearSingleOrderController, getInvoicesController, getOrderController, getOrdersController, postOrderController } from "../controllers/order.controller";
 
 const orderRoutes = new Router();
 
@@ -12,11 +10,14 @@ orderRoutes.post("/orders", orderController.create);
 orderRoutes.put("/orders/:id", orderController.update);
 orderRoutes.delete("/orders/:id", orderController.delete);
 // news
+/*
+import { isAuth, orderIdValidation, processingOrderValidation } from "../middlewares/indexMiddlewares";
+import { clearAllOrdersController, clearSingleOrderController, getInvoicesController, getOrderController, getOrdersController, postOrderController } from "../controllers/order.controller";
 orderRoutes.get("/", isAuth, getOrdersController);
 orderRoutes.get("/:orderId", isAuth, orderIdValidation, getOrderController);
 orderRoutes.post("/", isAuth, processingOrderValidation, postOrderController);
 orderRoutes.delete("/clear-orders", isAuth, clearAllOrdersController);
 orderRoutes.delete("/:orderId", isAuth, orderIdValidation, clearSingleOrderController);
-orderRoutes.get("/invoices/:orderId", isAuth, orderIdValidation, getInvoicesController);
+orderRoutes.get("/invoices/:orderId", isAuth, orderIdValidation, getInvoicesController);*/
 
 export default orderRoutes;
