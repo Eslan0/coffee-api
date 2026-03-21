@@ -1,8 +1,8 @@
 import { NextFunction, Response } from "express";
 import createHttpError from "http-errors";
-import { envConfig } from "../../configs/variables";
+import { envConfig } from "../../configs/variable";
 import { IAuthRequest as IAdminRequest } from "../../interfaces/indexInterfaces";
-import { authorizationRoles } from "../../constants";
+import { authorizationRoles } from "../../enums";
 
 export const isAdmin = async (req: IAdminRequest, res: Response, next: NextFunction) => {
   const user = req?.user;

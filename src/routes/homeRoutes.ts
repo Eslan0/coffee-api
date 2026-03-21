@@ -4,7 +4,7 @@ import { customResponse } from "../utils/indexUtils";
 
 const homeRoutes = new Router();
 
-homeRoutes.get("/", async (ctx, res: any) => {
+homeRoutes.get("/", async (ctx: any) => {
   ctx.body = { message: "API server is running! 🚀" };
 });
 

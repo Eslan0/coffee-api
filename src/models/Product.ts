@@ -1,6 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { IProduct } from "../interfaces/indexInterfaces";
-import { productCategory } from "../constants";
 
 const ProductSchema: Schema<IProduct> = new Schema(
   {
@@ -48,38 +47,8 @@ const ProductSchema: Schema<IProduct> = new Schema(
       },
     ],
     category: {
-      type: String,
-      enum: {
-        values: [
-          productCategory.womenClothe,
-          productCategory.menClothe,
-          productCategory.menShoe,
-          productCategory.womenShoe,
-          productCategory.toy,
-          productCategory.football,
-          productCategory.book,
-          productCategory.PersonalComputer,
-          productCategory.jewelery,
-          productCategory.electronic,
-          productCategory.sport,
-          productCategory.all,
-        ],
-        message: `Please select category only from short listed option (${productCategory.all},
-        ${productCategory.womenClothe},
-          ${productCategory.menClothe},
-          ${productCategory.menClothe},
-          ${productCategory.womenShoe},
-          ${productCategory.toy},
-          ${productCategory.football},
-          ${productCategory.book},
-          ${productCategory.PersonalComputer},
-          ${productCategory.jewelery},
-          ${productCategory.electronic},
-          ${productCategory.sport})`,
-      },
-      default: productCategory.all,
-      trim: true,
-      lowercase: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
       required: [true, "Category is required please select one"],
     },
     stock: {
@@ -92,9 +61,9 @@ const ProductSchema: Schema<IProduct> = new Schema(
       default: "in stock - order soon",
     },
     section: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Section",
-      required: [true, "A seção é obrigatória"],
+      required: [true, "Section is required"],
     },
     numberOfReviews: {
       type: Number,
@@ -105,32 +74,16 @@ const ProductSchema: Schema<IProduct> = new Schema(
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User", // add relationship
+          ref: "User",
           required: [true, "User is required"],
         },
-        name: {
-          type: String,
-          required: [true, ""],
-          trim: true,
-          lowercase: true,
-        },
-        rating: {
-          type: Number,
-          required: false,
-          default: 0,
-        },
-        comment: {
-          type: String,
-          required: false,
-        },
+        name: { type: String, required: true, trim: true },
+        rating: { type: Number, default: 0 },
+        comment: { type: String },
       },
     ],
     ratings: {
       type: Number,
-      required: false,
-      maxLength: 5,
-      trim: true,
-      lowercase: true,
       default: 0,
     },
     user: {
@@ -147,7 +100,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
 );
 
 ProductSchema.post("save", function () {
-  if (process?.env?.NODE_ENV && process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV && process.env.NODE_ENV === "development") {
     console.log("Middleware called after saving the product is (product is been Save )", this);
   }
 });

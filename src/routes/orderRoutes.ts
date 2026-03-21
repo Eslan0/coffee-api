@@ -1,14 +1,14 @@
 import Router from "@koa/router";
-import orderController from "../controllers/orderController";
+import OrderController from "../controllers/orderController";
 
 const orderRoutes = new Router();
 
 // Just the mapping: Route + HTTP Verb + Controller Function
-orderRoutes.get("/orders", orderController.index);
-orderRoutes.get("/orders/:id", orderController.show);
-orderRoutes.post("/orders", orderController.create);
-orderRoutes.put("/orders/:id", orderController.update);
-orderRoutes.delete("/orders/:id", orderController.delete);
+orderRoutes.get("/orders", OrderController.index);
+orderRoutes.get("/orders/:id", OrderController.show);
+orderRoutes.post("/orders", OrderController.create);
+orderRoutes.put("/orders/:id", OrderController.update);
+orderRoutes.delete("/orders/:id", OrderController.delete);
 // news
 /*
 import { isAuth, orderIdValidation, processingOrderValidation } from "../middlewares/indexMiddlewares";

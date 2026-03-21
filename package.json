@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node-dev --respawn src/server.ts",
+    "start": "node dist/server.js",
     "build": "tsc -p tsconfig.prod.json",
     "test": "export NODE_ENV=testing || SET \"NODE_ENV=testing\" && jest --detectOpenHandles"
   },
@@ -24,9 +24,12 @@
     "cloudinary": "^2.9.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
+    "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "koa": "^3.1.1",
     "koa-bodyparser": "^4.4.1",
+    "koa-helmet": "^9.0.0",
+    "koa-ratelimit": "^6.0.0",
     "mongoose": "^9.1.6",
     "multer": "^2.1.1",
     "streamifier": "^0.1.1"
@@ -38,6 +41,7 @@
     "@types/koa__cors": "^5.0.1",
     "@types/koa__multer": "^2.0.8",
     "@types/koa-bodyparser": "^4.3.13",
+    "@types/koa-ratelimit": "^5.0.5",
     "@types/koa-router": "^7.4.9",
     "@types/multer": "^2.1.0",
     "eslint": "^10.0.3",

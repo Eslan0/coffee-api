@@ -1,9 +1,8 @@
-import mongoose, { Schema, Document, Model, model, models } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 import { CartItemT, IUser, IUserDocument } from "../interfaces/indexInterfaces";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { envConfig } from "../configs/variables";
-import { authorizationRoles } from "../constants";
+import envConfig from "../configs/variable";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -30,7 +29,10 @@ const UserSchema = new Schema<IUser>(
       lowercase: true,
       trim: true,
       maxLength: [128, "Email can't be greater than 128 characters"],
-      match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, "Por favor, use um email válido"],
+      match: [
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Por favor, use um email válido",
+      ],
     },
     password: {
       type: String,
@@ -89,15 +91,15 @@ const UserSchema = new Schema<IUser>(
       trim: true,
       lowercase: true,
       enum: [
-        authorizationRoles.user,
-        authorizationRoles.admin,
-        authorizationRoles.manger,
-        authorizationRoles.moderator,
-        authorizationRoles.supervisor,
-        authorizationRoles.guide,
-        authorizationRoles.client,
+        "user",
+        "admin",
+        "manager",
+        "moderator",
+        "supervisor",
+        "guide",
+        "client",
       ],
-      default: authorizationRoles.user,
+      default: "user",
     },
     isVerified: {
       type: Boolean,
@@ -166,7 +168,6 @@ UserSchema.pre<IUserDocument>("save", async function () {
 
     this.password = await bcrypt.hash(this.password, salt);
     this.confirmPassword = undefined;
-
   } catch (error: any) {
     throw error;
   }
@@ -186,10 +187,10 @@ UserSchema.methods.createJWT = function (this: IUserDocument): string {
     role: this.role,
   };
 
-  const expireTime = (envConfig.JWT_EXPIRE_TIME as string) || '1d';
+  const expireTime = (envConfig.JWT_EXPIRE_TIME as string) || "1d";
 
   return jwt.sign(payload, envConfig.TOKEN_SECRET as string, {
-    expiresIn: expireTime as any
+    expiresIn: expireTime as any,
   });
 };
 

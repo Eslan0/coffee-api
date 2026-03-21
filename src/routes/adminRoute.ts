@@ -48,7 +48,7 @@ import {
 } from "../controllers/indexControllers";
 import { envConfig } from "../configs";
 import { adminClearAllPostsService, adminDeleteAllOrderForGivenUserService } from "../services/indexServices";
-import { authorizationRoles } from "../constants";
+import { authorizationRoles } from "../enums";
 import { isAuth } from "../middlewares/indexMiddlewares";
 
 const router = express.Router();

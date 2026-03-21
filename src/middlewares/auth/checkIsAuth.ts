@@ -2,7 +2,7 @@ import jwt, { VerifyErrors } from "jsonwebtoken";
 import { NextFunction, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
 import User from "../../models/User";
-import { envConfig } from "../../configs/variables";
+import { envConfig } from "../../configs/variable";
 import { IAuthRequest, IUser } from "../../interfaces/indexInterfaces";
 
 export const isAuth = async (req: IAuthRequest, res: Response, next: NextFunction) => {

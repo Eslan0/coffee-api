@@ -1,7 +1,7 @@
 import { Context } from "koa";
 import productService from "../services/productService";
 
-class productController {
+class ProductController {
   // GET /products - Product list
   async index(ctx: Context) {
     try {
@@ -71,7 +71,7 @@ class productController {
   }
 }
 
-export default new productController();
+export default new ProductController();
 /*
 import { NextFunction, Request, Response } from "express";
 

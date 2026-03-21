@@ -2,11 +2,11 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
 import { SignOptions } from "jsonwebtoken";
 import User from "../models/User";
-import { envConfig } from "../configs/variables";
+import envConfig from "../configs/variable";
 import { customResponse, deleteFile, sendConfirmResetPasswordEmail, sendEmailVerificationEmail, sendResetPasswordEmail } from "@src/utils";
 import { AuthenticatedRequestBody, IUser, ResponseT } from "../interfaces/indexInterfaces";
 import { cloudinary, verifyRefreshToken } from "../middlewares/indexMiddlewares";
-import { authorizationRoles } from "../constants";
+import { authorizationRoles } from "../enums";
 
 export const signupService = async (req: Request, res: Response<ResponseT<null>>, next: NextFunction) => {
   const { email, password, name, surname, confirmPassword, acceptTerms, jobTitle, bio, favoriteAnimal, mobileNumber, gender, dateOfBirth, address, nationality, companyName } = req.body;

@@ -1,6 +1,6 @@
 import Product from "../models/Product";
 
-class productService {
+class ProductService {
   // Busca todos os produtos
   async getAll() {
     const products = await Product.find();
@@ -33,4 +33,4 @@ class productService {
   }
 }
 
-export default new productService();
+export default new ProductService();

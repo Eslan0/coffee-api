@@ -1,7 +1,7 @@
 import { Context } from "koa";
 import sectionService from "../services/sectionService";
 
-class sectionController {
+class SectionController {
   // GET /sections - Section list
   async index(ctx: Context) {
     try {
@@ -54,4 +54,4 @@ class sectionController {
   }
 }
 
-export default new sectionController();
+export default new SectionController();

@@ -1,6 +1,6 @@
 import User from "../models/User";
 
-class userService {
+class UserService {
   // Cria um novo usuário
   async create(userData: any) {
     const user = await User.create(userData);
@@ -26,4 +26,4 @@ class userService {
   }
 }
 
-export default new userService();
+export default new UserService();

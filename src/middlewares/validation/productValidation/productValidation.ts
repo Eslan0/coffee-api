@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import validator from "../validator";
+import validator from "../../validatorMiddleware";
 import { productSchema } from "./productSchema";
 
 export const addProductValidation: RequestHandler = (req, res, next) => {

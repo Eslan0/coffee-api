@@ -1,8 +1,8 @@
 import express from "express";
-import { envConfig } from "../configs";
+import envConfig from "../configs/variable";
 import { moderatorGetUsersController } from "../controllers/moderatorController";
-import { customRoles, isAuth } from "../middlewares/indexMiddlewares";
-import { authorizationRoles } from "../constants";
+import { customRoles, isAuth } from "../middlewares/auth";
+import { authorizationRoles } from "../enums";
 
 const router = express.Router();
 

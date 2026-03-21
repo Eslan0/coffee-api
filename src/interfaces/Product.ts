@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { IUser } from "./User";
 
 export interface IProduct extends Document {
@@ -12,7 +12,7 @@ export interface IProduct extends Document {
     cloudinary_id: string;
   }[];
   brand: string;
-  category: string;
+  category: mongoose.Types.ObjectId;
   stock?: string;
   numberOfReviews: number;
   reviews: IReviews[];

@@ -1,5 +1,4 @@
-import mongoose, { Schema } from "mongoose";
-import { postCategory } from "../constants";
+import mongoose, { Schema, Model } from "mongoose";
 import { IPost } from "../interfaces/indexInterfaces";
 
 export const PostSchema: Schema<IPost> = new Schema(
@@ -28,35 +27,9 @@ export const PostSchema: Schema<IPost> = new Schema(
       required: [true, "author is required"],
     },
     category: {
-      type: String,
-      enum: {
-        values: [
-          postCategory.blockchain,
-          postCategory.coding,
-          postCategory.devApp,
-          postCategory.nextjs,
-          postCategory.nodejs,
-          postCategory.reactjs,
-          postCategory.sports,
-          postCategory.typeScript,
-          postCategory.social,
-        ],
-        message: `Please select category only from short listed option  
-         ${postCategory.typeScript},
-        ${postCategory.sports},
-          ${postCategory.reactjs},
-          ${postCategory.nodejs},
-          ${postCategory.nextjs},
-          ${postCategory.devApp},
-          ${postCategory.coding},
-          ${postCategory.blockchain},
-           ${postCategory.social},
-          )`,
-      },
-      default: postCategory.social,
-      trim: true,
-      lowercase: true,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: [true, "Category is required please select one"],
     },
     likes: [
       {
@@ -87,4 +60,6 @@ export const PostSchema: Schema<IPost> = new Schema(
   }
 );
 
-export default mongoose.models.Post || mongoose.model<IPost>("Post", PostSchema);
+const Post: Model<IPost> = mongoose.model<IPost>("Post", PostSchema);
+
+export default Post;

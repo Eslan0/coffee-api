@@ -1,6 +1,6 @@
 import Section from "../models/Section";
 
-class sectionService {
+class SectionService {
   // Busca todas as seções
   async getAllSections() {
     const sections = await Section.find();
@@ -26,4 +26,4 @@ class sectionService {
   }
 }
 
-export default new sectionService();
+export default new SectionService();

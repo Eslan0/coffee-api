@@ -8,7 +8,7 @@ import { customResponse } from "../utils/indexUtils";
 import Order from "../models/Order";
 import User from "../models/User";
 import Product from "../models/Product";
-import { authorizationRoles } from "../constants";
+import { authorizationRoles } from "../enums";
 
 export const getOrdersService = async (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => {
   try {

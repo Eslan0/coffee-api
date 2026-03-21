@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import validator from "../validator";
+import validator from "../../validatorMiddleware";
 import { orderSchema } from "./orderSchema";
 
 export const processingOrderValidation: RequestHandler = (req, res, next) => validator(orderSchema.processingOrder, { ...req.body }, next);

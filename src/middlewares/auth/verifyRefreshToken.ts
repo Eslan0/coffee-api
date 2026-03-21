@@ -1,5 +1,5 @@
 import jwt, { VerifyErrors } from "jsonwebtoken";
-import { envConfig } from "../../configs/variables";
+import { envConfig } from "../../configs/variable";
 
 export const verifyRefreshToken = async function (refreshToken: any): Promise<string> {
   return new Promise(function (resolve, reject) {

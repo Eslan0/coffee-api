@@ -149,10 +149,10 @@ coffee-api/
 - To run this project, you will need to add the following environment variables to your .env file (check environment.config.js file for more examples)
 
 - MONGODB_URI
-- TEST_ENV_MONGODB_CONNECTION_STRING
+- TEST_ENV_MONGODB
 - USE_MEMORY_DB
 - TOKEN_SECRET
-- WEBSITE_URL
+- API_URL
 - API_VERSION
 - JWT_EXPIRE_TIME
 - SEND_GRID_API_KEY

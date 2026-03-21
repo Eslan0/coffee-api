@@ -4,7 +4,7 @@ import User from "../models/User";
 import { customResponse, deleteFile } from "../utils/indexUtils";
 import { AddCommentT, AuthenticatedRequestBody, IUser, IPost, TPaginationResponse, UpdateCommentT, CommentI, LikeT } from "../interfaces/indexInterfaces";
 import Post from "../models/Post";
-import { cloudinary } from "../middlewares/indexMiddlewares";
+import { cloudinary } from "../middlewares/file-upload";
 
 export const createPostService = async (req: AuthenticatedRequestBody<IPost>, res: Response, next: NextFunction) => {
   const { title, content, category } = req.body;

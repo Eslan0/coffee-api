@@ -1,6 +1,6 @@
 import Order from "../models/Order";
 
-class orderService {
+class OrderService {
   // Busca todos os pedidos
   async getAllOrders() {
     const orders = await Order.find();
@@ -32,4 +32,4 @@ class orderService {
   }
 }
 
-export default new orderService();
+export default new OrderService();

@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import createHttpError from "http-errors";
 import Stripe from "stripe";
 import { customResponse } from "../utils/indexUtils";
-import { envConfig } from "../configs";
+import envConfig from "../configs/variable";
 import { AuthenticatedRequestBody, IUser, ProcessingStripeCheckoutT } from "../interfaces/indexInterfaces";
 
 const stripe = new Stripe(envConfig.STRIPE_SECRET_KEY as string, {

@@ -1,14 +1,14 @@
 import Multer from "@koa/multer";
 
-// Configuração do Multer
+// multir configuration
 const storage = Multer.memoryStorage();
 const upload = Multer({
   storage,
   limits: {
-    files: 4, // Máximo de arquivos
-    fileSize: 5 * 1024 * 1024, // 5MB por arquivo
+    files: 4, // Maximum number of files
+    fileSize: 5 * 1024 * 1024, // 5MB per file
   },
 });
 
-// Exporta apenas a execução do array
+// exports only the array execution
 export const uploadPhotos = upload.array("photos", 4);

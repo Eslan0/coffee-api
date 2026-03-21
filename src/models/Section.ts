@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 import { ISection } from "../interfaces/indexInterfaces";
 
 const SectionSchema = new Schema<ISection>(

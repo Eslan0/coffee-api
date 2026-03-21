@@ -1,6 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { IOrder } from "../interfaces/indexInterfaces";
-import { orderStatus } from "../constants";
 
 const OrderSchema = new Schema<IOrder>(
   {
@@ -32,8 +31,8 @@ const OrderSchema = new Schema<IOrder>(
     status: {
       type: String,
       required: true,
-      enum: Object.values(orderStatus),
-      default: orderStatus.pending,
+      enum: Object.values(["pending", "shipped", "delivered", "cancelled"]),
+      default: "pending",
       trim: true,
     },
     deliveredAt: { type: Date },

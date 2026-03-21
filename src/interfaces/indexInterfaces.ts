@@ -1,3 +1,4 @@
+export * from "./Category";
 export * from "./CustomTypes";
 export * from "./ErrorResponse";
 export * from "./MessageResponse";

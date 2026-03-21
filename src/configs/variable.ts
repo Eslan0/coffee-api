@@ -1,17 +1,15 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
-export const envConfig = {
+const envConfig = {
   MONGO_URI: process.env.MONGO_URI,
   USE_MEMORY_DB: process.env.USE_MEMORY_DB,
   TEST_ENV_MONGODB: process.env.TEST_ENV_MONGODB,
   TOKEN_SECRET: process.env.TOKEN_SECRET,
-  WEBSITE_URL: process.env.WEBSITE_URL,
-  API_URL: process.env.API_URL,
+  API_URL: process.env.API_URL || 8000,
   API_VERSION: process.env.API_VERSION,
   JWT_EXPIRE_TIME: process.env.JWT_EXPIRE_TIME,
-  PORT: process.env.PORT || 8000,
   SEND_GRID_API_KEY: process.env.SEND_GRID_API_KEY,
   ADMIN_SEND_GRID_EMAIL: process.env.ADMIN_SEND_GRID_EMAIL,
   NODE_ENV: process.env.NODE_ENV || "development",

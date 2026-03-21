@@ -4,8 +4,11 @@ import userRoutes from "./userRoutes";
 import sectionRoutes from "./sectionRoutes";
 import productRoutes from "./productRoutes";
 import orderRoutes from "./orderRoutes";
+import envConfig from "../configs/variable";
 
-const indexRoutes = new Router();
+const apiVersion = envConfig.API_VERSION;
+
+const indexRoutes = new Router({ prefix: `/v${apiVersion}` });
 
 indexRoutes.use(homeRoutes.routes());
 indexRoutes.use(homeRoutes.allowedMethods());

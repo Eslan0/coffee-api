@@ -1,24 +1,29 @@
-import "dotenv/config";
 import Koa from "koa";
-import bodyParser from "koa-bodyparser";
 import cors from "@koa/cors";
+import helmet from "koa-helmet";
+import bodyParser from "koa-bodyparser";
+import envConfig from "./configs/variable";
 import connectDB from "./configs/database";
 import errorMiddleware from "./middlewares/errorMiddleware";
+import limitMiddleware from "./middlewares/limitMiddleware";
 import indexRoutes from "./routes/indexRoutes";
 
 const app = new Koa();
 
-// Middlewares
-app.use(cors());
+// middlewares
+const CORS = envConfig.CLIENT_URL;
+app.use(cors({ origin: CORS }));
+app.use(helmet());
 app.use(bodyParser());
 app.use(errorMiddleware());
+app.use(limitMiddleware());
 
-// API Routes
+// api routes
 app.use(indexRoutes.routes());
 app.use(indexRoutes.allowedMethods());
 
-// Start the server
-const PORT = process.env.PORT || 3000;
+// start the server
+const PORT = envConfig.API_URL;
 app.listen(PORT, () => {
   connectDB();
   console.log(`Server running on http://localhost:${PORT}`);

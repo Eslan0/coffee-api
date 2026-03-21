@@ -1,15 +1,15 @@
 import Router from "@koa/router";
-import productController from "../controllers/productController";
+import ProductController from "../controllers/productController";
 import { uploadPhotos } from "../middlewares/uploadMiddleware";
 
 const productRoutes = new Router();
 
 // Just the mapping: Route + HTTP Verb + Controller Function
-productRoutes.get("/products", productController.index);
-productRoutes.get("/products/:id", productController.show);
-productRoutes.post("/products", uploadPhotos, productController.create);
-productRoutes.put("/products/:id", productController.update);
-productRoutes.delete("/products/:id", productController.delete);
+productRoutes.get("/products", ProductController.index);
+productRoutes.get("/products/:id", ProductController.show);
+productRoutes.post("/products", uploadPhotos, ProductController.create);
+productRoutes.put("/products/:id", ProductController.update);
+productRoutes.delete("/products/:id", ProductController.delete);
 // news
 /*
 import { isAuth, productsPaginationMiddleware, reviewProductValidation, top5AliasProductsMiddleware } from "../middlewares";

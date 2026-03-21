@@ -1,9 +1,9 @@
 import { Context, Middleware } from "koa";
 import userService from "../services/userService";
 
-class userController {
-// GET /users/:id - Search for a user by ID
-  async show (ctx: Context){
+class UserController {
+  // GET /users/:id - Search for a user by ID
+  async show(ctx: Context) {
     try {
       const userId = ctx.params.id;
       const user = await userService.getById(userId);
@@ -16,7 +16,7 @@ class userController {
   }
 
   // POST /users - Create a new user
-  async create (ctx: Context) {
+  async create(ctx: Context) {
     try {
       const userData = ctx.request.body;
       const newUser = await userService.create(userData);
@@ -29,7 +29,7 @@ class userController {
   }
 
   // PUT /users/:id - Update an existing user
-  async update (ctx: Context) {
+  async update(ctx: Context) {
     try {
       const userId = ctx.params.id;
       const userData = ctx.request.body;
@@ -54,9 +54,9 @@ class userController {
       ctx.body = { message: "Erro ao excluir usuário", error };
     }
   }
-};
+}
 
-export default new userController();
+export default new UserController();
 /*
 import { Response, NextFunction } from "express";
 
