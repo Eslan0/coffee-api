@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import createHttpError from "http-errors";
 import { envConfig } from "../../configs/variable";
-import { IAuthRequest as IAdminRequest } from "../../interfaces/indexInterfaces";
+import { IAuthRequest as IAdminRequest } from "../../interfaces";
 import { authorizationRoles } from "../../enums";
 
 export const isAdmin = async (req: IAdminRequest, res: Response, next: NextFunction) => {

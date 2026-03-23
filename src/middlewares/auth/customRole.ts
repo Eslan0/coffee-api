@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
-import { IAuthRequest } from "../../interfaces/indexInterfaces";
+import { IAuthRequest } from "../../interfaces";
 
 export const customRoles = (authorizationEmails: string | undefined, role: string) => {
   return async (req: IAuthRequest, res: Response, next: NextFunction) => {

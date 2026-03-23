@@ -1,9 +1,9 @@
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import { NextFunction, Response } from "express";
 import createHttpError, { InternalServerError } from "http-errors";
-import User from "../../models/User";
+import User from "../../models/user.model";
 import { envConfig } from "../../configs/variable";
-import { IAuthRequest, IUser } from "../../interfaces/indexInterfaces";
+import { IAuthRequest, IUser } from "../../interfaces";
 
 export const isAuth = async (req: IAuthRequest, res: Response, next: NextFunction) => {
   const authHeader = (req && req.headers.authorization) || (req && req.headers.Authorization);

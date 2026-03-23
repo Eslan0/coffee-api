@@ -1,0 +1,26 @@
+import mongoose, { Schema, Model } from "mongoose";
+import { ISection } from "../interfaces/section.interface";
+
+const SectionSchema = new Schema<ISection>(
+  {
+    name: {
+      type: String,
+      required: [true, "O nome é obrigatório"],
+      trim: true,
+    },
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+
+const Section: Model<ISection> = mongoose.model<ISection>("Section", SectionSchema);
+
+export default Section;
