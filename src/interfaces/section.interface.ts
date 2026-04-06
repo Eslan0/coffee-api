@@ -1,8 +1,8 @@
-import { Document } from "mongoose";
+import { Types } from "mongoose";
 
-export interface ISection extends Document {
+export interface ISection {
   name: string;
-  products: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  products: Types.ObjectId[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }

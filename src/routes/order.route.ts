@@ -1,23 +1,17 @@
 import Router from "@koa/router";
 import OrderController from "../controllers/order.controller";
+import { verifyToken } from "../middlewares/auth.middleware";
+import { isAdmin } from "../middlewares/role.middleware";
 
 const router = new Router();
 
-// Just the mapping: Route + HTTP Verb + Controller Function
-router.get("/orders", OrderController.index);
-router.get("/orders/:id", OrderController.show);
-router.post("/orders", OrderController.create);
-router.put("/orders/:id", OrderController.update);
-router.delete("/orders/:id", OrderController.delete);
-// news
-/*
-import { isAuth, orderIdValidation, processingOrderValidation } from "../middlewares/indexMiddlewares";
-import { clearAllOrdersController, clearSingleOrderController, getInvoicesController, getOrderController, getOrdersController, postOrderController } from "../controllers/order.controller";
-router.get("/", isAuth, getOrdersController);
-router.get("/:orderId", isAuth, orderIdValidation, getOrderController);
-router.post("/", isAuth, processingOrderValidation, postOrderController);
-router.delete("/clear-orders", isAuth, clearAllOrdersController);
-router.delete("/:orderId", isAuth, orderIdValidation, clearSingleOrderController);
-router.get("/invoices/:orderId", isAuth, orderIdValidation, getInvoicesController);*/
+router.get("/orders", verifyToken, isAdmin, OrderController.index);
+router.get("/orders/:id", verifyToken, isAdmin, OrderController.show);
+router.get("/orders/my/:phone", OrderController.getMyOrders);
+router.patch("/orders/:id/status", verifyToken, isAdmin, OrderController.updateStatus);
+router.put("/orders/:id", verifyToken, isAdmin, OrderController.update);
+router.delete("/orders/:id", verifyToken, isAdmin, OrderController.delete);
+
+router.post("/checkout", OrderController.create);
 
 export default router;

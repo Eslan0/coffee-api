@@ -1,40 +1,17 @@
-import express from "express";
-import {
-  isAuth,
-  loginUserValidation,
-  refreshTokenValidation,
-  resetPasswordValidation,
-  sendVerificationMailValidation,
-  signupUserValidation,
-  updateUserValidation,
-  uploadImage,
-  userIdValidation,
-  verifyUserMailValidation,
-} from "../middlewares";
-import {
-  getAuthProfileController,
-  loginController,
-  logoutController,
-  updateAuthController,
-  refreshTokenController,
-  removeAuthController,
-  resetPasswordController,
-  sendForgotPasswordMailController,
-  signupController,
-  verifyEmailController,
-} from "../controllers";
+import Router from "@koa/router";
+import AuthController from "../controllers/auth.controller";
+import { verifyToken } from "../middlewares/auth.middleware";
 
-const router = express.Router();
+const router = new Router();
 
-router.post("/signup", uploadImage.single("profileImage"), signupUserValidation, signupController);
-router.post("/login", loginUserValidation, loginController);
-router.post("/logout", refreshTokenValidation, logoutController);
-router.patch("/update/:userId", isAuth, uploadImage.single("profileImage"), updateUserValidation, updateAuthController);
-router.delete("/remove/:userId", isAuth, userIdValidation, removeAuthController);
-router.get("/verify-email/:userId/:token", verifyUserMailValidation, verifyEmailController);
-router.post("/refresh-token", refreshTokenValidation, refreshTokenController);
-router.post("/forget-password", sendVerificationMailValidation, sendForgotPasswordMailController);
-router.post("/reset-password/:userId/:token", resetPasswordValidation, resetPasswordController);
-router.get("/me", isAuth, getAuthProfileController);
+router.post("/signup", AuthController.signup);
+router.post("/login", AuthController.login);
+router.post("/logout", AuthController.logout);
+router.post("/refresh-token", AuthController.refreshToken);
+router.post("/forgot-password", AuthController.forgotPassword);
+router.post("/reset-password/:userId/:token", AuthController.resetPassword);
+router.get("/verify-email/:userId/:token", AuthController.verifyEmail);
+router.post("/update-email", AuthController.updateEmail);
+router.get("/me", verifyToken, AuthController.getAuthUser);
 
-export = router;
+export default router;

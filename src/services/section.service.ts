@@ -1,25 +1,25 @@
 import Section from "../models/section.model";
 
 class SectionService {
-  // Busca todas as seções
+  // list all sections
   async getAllSections() {
     const sections = await Section.find();
     return sections;
   }
 
-  // Cria uma nova seção
+  // create a new section
   async createSection(data: any) {
     const section = await Section.create(data);
     return section;
   }
 
-  // Atualiza uma seção existente
+  // update an existing section
   async updateSection(id: string, data: any) {
     const section = await Section.findByIdAndUpdate(id, data, { new: true });
     return section;
   }
 
-  // Exclui uma seção existente
+  // delete an existing section
   async deleteSection(id: string) {
     const section = await Section.findByIdAndDelete(id);
     return section;

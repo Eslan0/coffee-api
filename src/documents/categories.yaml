@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: Coffee API
+  version: 2.0.4
+
+paths:
+  /categories/{slug}/products:
+    get:
+      summary: Get products by category slug
+      tags: [Categories]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of products in category

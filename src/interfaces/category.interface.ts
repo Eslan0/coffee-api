@@ -1,6 +1,8 @@
-import { Document } from "mongoose";
+import { Types } from "mongoose";
 
-export interface ICategory extends Document {
+export interface ICategory {
   name: string;
   slug: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

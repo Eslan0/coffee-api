@@ -1,8 +1,19 @@
-import { Context, Middleware } from "koa";
+import { Context } from "koa";
 import userService from "../services/user.service";
 
 class UserController {
-  // GET /users/:id - Search for a user by ID
+  // get /users - user list
+  async index(ctx: Context) {
+    try {
+      const users = await userService.getAll();
+      ctx.body = users;
+    } catch (error) {
+      ctx.status = 400;
+      ctx.body = { message: "Error searching for users", error };
+    }
+  }
+
+  // get /users/:id - search for a user by id
   async show(ctx: Context) {
     try {
       const userId = ctx.params.id;
@@ -10,12 +21,12 @@ class UserController {
 
       ctx.body = user;
     } catch (error) {
-      ctx.status = 400; // Validation error or malformed data
-      ctx.body = { message: "Erro ao buscar usuário", error };
+      ctx.status = 400;
+      ctx.body = { message: "Error searching for user", error };
     }
   }
 
-  // POST /users - Create a new user
+  // post /users - create a new user
   async create(ctx: Context) {
     try {
       const userData = ctx.request.body;
@@ -23,12 +34,12 @@ class UserController {
 
       ctx.body = newUser;
     } catch (error) {
-      ctx.status = 400; // Validation error or malformed data
-      ctx.body = { message: "Erro ao criar usuário", error };
+      ctx.status = 400;
+      ctx.body = { message: "Error creating user", error };
     }
   }
 
-  // PUT /users/:id - Update an existing user
+  // put /users/:id - update an existing user
   async update(ctx: Context) {
     try {
       const userId = ctx.params.id;
@@ -37,12 +48,12 @@ class UserController {
 
       ctx.body = updatedUser;
     } catch (error) {
-      ctx.status = 400; // Validation error or malformed data
-      ctx.body = { message: "Erro ao atualizar usuário", error };
+      ctx.status = 400; // validation error or malformed data
+      ctx.body = { message: "Error updating user", error };
     }
   }
 
-  // DELETE /users/:id - Delete an existing user
+  // delete /users/:id - delete an existing user
   async delete(ctx: Context) {
     try {
       const userId = ctx.params.id;
@@ -50,20 +61,10 @@ class UserController {
 
       ctx.body = deletedUser;
     } catch (error) {
-      ctx.status = 400; // Validation error or malformed data
-      ctx.body = { message: "Erro ao excluir usuário", error };
+      ctx.status = 400;
+      ctx.body = { message: "Error deleting user", error };
     }
   }
 }
 
 export default new UserController();
-/*
-import { Response, NextFunction } from "express";
-
-import { followUserService, unFollowUserService } from "../services";
-import { AuthenticatedRequestBody, IUser } from "../interfaces";
-
-export const followUserController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => followUserService(req, res, next);
-
-export const unFollowUserController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => unFollowUserService(req, res, next);
-*/

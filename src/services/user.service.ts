@@ -1,25 +1,25 @@
 import User from "../models/user.model";
 
 class UserService {
-  // Cria um novo usuário
+  // create a new user
   async create(userData: any) {
     const user = await User.create(userData);
     return user;
   }
 
-  // Busca um usuário pelo ID
+  // search for a user by id
   async getById(id: string) {
     const user = await User.findById(id);
     return user;
   }
 
-  // Atualiza um usuário existente
+  // update an existing user
   async update(id: string, userData: any) {
     const user = await User.findByIdAndUpdate(id, userData, { new: true });
     return user;
   }
 
-  // Exclui um usuário existente
+  // deletes an existing user
   async delete(id: string) {
     const user = await User.findByIdAndDelete(id);
     return user;

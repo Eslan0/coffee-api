@@ -5,7 +5,7 @@ const SectionSchema = new Schema<ISection>(
   {
     name: {
       type: String,
-      required: [true, "O nome é obrigatório"],
+      required: [true, "Please provide name"],
       trim: true,
     },
     products: [

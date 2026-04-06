@@ -5,7 +5,7 @@ import Joi from "joi";
 const validatorMiddleware = (schema: Joi.ObjectSchema) => {
   return async (ctx: Context, next: Next) => {
     const { error, value } = schema.validate(ctx.request.body, {
-      abortEarly: false,  // include all errors
+      abortEarly: false, // include all errors
       allowUnknown: true, // ignore unknown properties
       stripUnknown: true, // remove unknown properties
     });

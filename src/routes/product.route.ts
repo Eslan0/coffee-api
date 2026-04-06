@@ -1,35 +1,18 @@
 import Router from "@koa/router";
 import ProductController from "../controllers/product.controller";
 import { uploadPhotos } from "../middlewares/upload.middleware";
-/**
- * @swagger
- * /products:
- *   get:
- *     summary: Get all products
- *     tags: [Products]
- *     responses:
- *       200:
- *         description: List of products
- */
+import { verifyToken } from "../middlewares/auth.middleware";
+import { isAdmin } from "../middlewares/role.middleware";
+
 const router = new Router();
 
-// Just the mapping: Route + HTTP Verb + Controller Function
-router.get("/products", ProductController.index);
-router.get("/products/:id", ProductController.show);
-router.post("/products", uploadPhotos, ProductController.create);
-router.put("/products/:id", ProductController.update);
-router.delete("/products/:id", ProductController.delete);
-// news
-/*
-import { isAuth, productsPaginationMiddleware, reviewProductValidation, top5AliasProductsMiddleware } from "../middlewares";
-import { addReviewController, deleteReviewController, getProductController, getProductsController, getReviewsController } from "../controllers/indexControllers";
-router.get("/", productsPaginationMiddleware(), getProductsController);
-router.get("/top-5-cheap", top5AliasProductsMiddleware(), productsPaginationMiddleware(), getProductsController);
-router.get("/:productId", getProductController);
-router.put("/reviews", isAuth, reviewProductValidation, addReviewController);
-router.get("/:productId", getProductController);
-router.put("/reviews", isAuth, reviewProductValidation, addReviewController);
-router
-router.route("/reviews/:productId").delete(isAuth, deleteReviewController).get(getReviewsController);*/
+router.get("/products", ProductController.getProducts);
+router.get("/products/featured", ProductController.getFeatured);
+router.get("/products/:id", ProductController.showProduct);
+router.get("/products/search?q=:query", ProductController.searchProducts);
+router.post("/products", verifyToken, isAdmin, uploadPhotos, ProductController.createProduct);
+router.put("/products/:id", verifyToken, isAdmin, ProductController.updateProduct);
+router.patch("/products/:id/stock", verifyToken, isAdmin, ProductController.updateStock);
+router.delete("/products/:id", verifyToken, isAdmin, ProductController.deleteProduct);
 
 export default router;

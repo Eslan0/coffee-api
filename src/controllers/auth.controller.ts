@@ -1,35 +1,85 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Context } from "koa";
+import authService from "../services/auth.service";
 
-import {
-  signupService,
-  loginService,
-  verifyEmailService,
-  logoutService,
-  getAuthProfileService,
-  sendForgotPasswordMailService,
-  refreshTokenService,
-  removeAuthService,
-  updateAuthService,
-  resetPasswordService,
-} from "../services/indexServices";
-import { AuthenticatedRequestBody, IUser } from "../interfaces";
+class AuthController {
+  async signup(ctx: Context) {
+    try {
+      const { email, password } = ctx.request.body;
+      const user = await authService.signup(email, password);
+      ctx.status = 201;
+      ctx.body = { message: "User created successfully", user };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const signupController = (req: Request, res: Response, next: NextFunction) => signupService(req, res, next);
+  async login(ctx: Context) {
+    try {
+      const { email, password } = ctx.request.body;
+      const { user, token } = await authService.login(email, password);
+      ctx.status = 200;
+      ctx.body = { message: "Successful login", user, token };
+    } catch (error: any) {
+      ctx.status = 401;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const loginController = (req: Request, res: Response, next: NextFunction) => loginService(req, res, next);
+  async forgotPassword(ctx: Context) {
+    try {
+      const { email } = ctx.request.body;
+      const user = await authService.forgotPassword(email);
+      ctx.body = { message: "Email sent successfully", user };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const getAuthProfileController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => getAuthProfileService(req, res, next);
+  async verifyEmail(ctx: Context) {
+    try {
+      const { userId } = ctx.params;
+      const user = await authService.verifyEmail(userId);
+      ctx.body = { message: "Email verified successfully", user };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const logoutController = (req: Request, res: Response, next: NextFunction) => logoutService(req, res, next);
+  async refreshToken(ctx: Context) {
+    try {
+      const { refreshToken } = ctx.request.body;
+      const { user, token } = await authService.refreshToken(refreshToken);
+      ctx.body = { message: "Token updated successfully", user, token };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const verifyEmailController = (req: Request, res: Response, next: NextFunction) => verifyEmailService(req, res, next);
+  async resetPassword(ctx: Context) {
+    try {
+      const { email } = ctx.request.body;
+      const user = await authService.resetPassword(email);
+      ctx.body = { message: "Password reset successfully", user };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
 
-export const updateAuthController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => updateAuthService(req, res, next);
+  async logout(ctx: Context) {
+    try {
+      const { userId } = ctx.params;
+      const user = await authService.logout(userId);
+      ctx.body = { message: "Successful logout", user };
+    } catch (error: any) {
+      ctx.status = 400;
+      ctx.body = { message: error.message };
+    }
+  }
+}
 
-export const removeAuthController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => removeAuthService(req, res, next);
-
-export const refreshTokenController: RequestHandler = async (req, res, next) => refreshTokenService(req, res, next);
-
-export const sendForgotPasswordMailController: RequestHandler = async (req, res, next) => sendForgotPasswordMailService(req, res, next);
-
-export const resetPasswordController: RequestHandler = async (req, res, next) => resetPasswordService(req, res, next);
+export default new AuthController();

@@ -1,31 +1,31 @@
 import Order from "../models/order.model";
 
 class OrderService {
-  // Busca todos os pedidos
-  async getAllOrders() {
+  // list all orders
+  async getAllOrders(userId: string) {
     const orders = await Order.find();
     return orders;
   }
 
-  // Busca um pedido pelo ID
+  // search order by id
   async getOrderById(orderId: string) {
     const order = await Order.findById(orderId);
     return order;
   }
 
-  // Cria um novo pedido
+  // create a new order
   async createOrder(orderData: any) {
     const order = await Order.create(orderData);
     return order;
   }
 
-  // Atualiza um pedido existente
+  // update a existing order
   async updateOrder(orderId: string, orderData: any) {
     const order = await Order.findByIdAndUpdate(orderId, orderData, { new: true });
     return order;
   }
 
-  // Exclui um pedido existente
+  // delete a existing order
   async deleteOrder(orderId: string) {
     const order = await Order.findByIdAndDelete(orderId);
     return order;

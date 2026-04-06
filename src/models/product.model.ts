@@ -1,96 +1,56 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { IProduct } from "../interfaces/product.interface";
 
-const ProductSchema: Schema<IProduct> = new Schema(
+const ProductSchema = new Schema<IProduct>(
   {
-    name: {
+    title: {
       type: String,
-      required: [true, "Please provide name"],
-      maxLength: 100,
+      required: true,
+      trim: true,
       minlength: 3,
-      trim: true,
-      lowercase: true,
-    },
-    price: {
-      type: Number,
-      required: [true, "Please provide price"],
-    },
-    brand: {
-      type: String,
-      required: [true, "Please product brand"],
-      trim: true,
+      maxlength: 100,
     },
     description: {
       type: String,
-      required: [true, "Please provide description"],
-      // maxLength: 500,
-      minlength: 15,
-      trim: true,
-      lowercase: true,
-    },
-    productImage: {
-      type: String,
-      required: [false, "Please provide product image"],
+      required: true,
+      minlength: 10,
       trim: true,
     },
-    productImages: [
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    stock: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
+    images: [
       {
-        url: {
-          type: String,
-          required: true,
-          trim: true,
-        },
-        cloudinary_id: {
-          type: String,
-          required: false,
-        },
+        url: { type: String, required: true },
+        cloudinary_id: { type: String },
       },
     ],
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Category",
-      required: [true, "Category is required please select one"],
-    },
-    stock: {
-      type: String,
-      required: false,
-      maxLength: 50,
-      minlength: 3,
-      trim: true,
-      lowercase: true,
-      default: "in stock - order soon",
+      required: true,
     },
     section: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Section",
-      required: [true, "Section is required"],
+      required: true,
     },
-    numberOfReviews: {
-      type: Number,
-      required: false,
-      default: 0,
+    featured: {
+      type: Boolean,
+      default: false,
     },
-    reviews: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: [true, "User is required"],
-        },
-        name: { type: String, required: true, trim: true },
-        rating: { type: Number, default: 0 },
-        comment: { type: String },
-      },
-    ],
-    ratings: {
-      type: Number,
-      default: 0,
-    },
-    user: {
-      // every products shuold blong to user
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // add relationship
-      required: [true, "User is required"],
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {

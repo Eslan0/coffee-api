@@ -2,18 +2,18 @@ import { Context } from "koa";
 import orderService from "../services/order.service";
 
 class OrderController {
-  // GET /orders - Order list
+  // get /orders - order list
   async index(ctx: Context) {
     try {
       const orders = await orderService.getAllOrders();
       ctx.body = orders;
     } catch (error) {
       ctx.status = 500;
-      ctx.body = { message: "Erro ao buscar pedidos" };
+      ctx.body = { message: "Error when searching for orders" };
     }
   }
 
-  // GET /orders/:id - Search for an order by ID
+  // get /orders/:id - search for an order by ID
   async show(ctx: Context) {
     try {
       const orderId = ctx.params.id;
@@ -21,11 +21,11 @@ class OrderController {
       ctx.body = order;
     } catch (error) {
       ctx.status = 500;
-      ctx.body = { message: "Erro ao buscar pedido" };
+      ctx.body = { message: "Error when searching for order" };
     }
   }
 
-  // POST /orders - Create a new order
+  // post /orders - create a new order
   async create(ctx: Context) {
     try {
       const orderData = ctx.request.body;
@@ -33,11 +33,11 @@ class OrderController {
       ctx.body = newOrder;
     } catch (error) {
       ctx.status = 500;
-      ctx.body = { message: "Erro ao criar pedido" };
+      ctx.body = { message: "Error creating order" };
     }
   }
 
-  // PUT /orders/:id - Update an existing order
+  // put /orders/:id - update an existing order
   async update(ctx: Context) {
     try {
       const orderId = ctx.params.id;
@@ -46,11 +46,11 @@ class OrderController {
       ctx.body = updatedOrder;
     } catch (error) {
       ctx.status = 500;
-      ctx.body = { message: "Erro ao atualizar pedido" };
+      ctx.body = { message: "Error updating order" };
     }
   }
 
-  // DELETE /orders/:id - Delete an existing order
+  // delete /orders/:id - delete an existing order
   async delete(ctx: Context) {
     try {
       const orderId = ctx.params.id;
@@ -58,26 +58,9 @@ class OrderController {
       ctx.body = deletedOrder;
     } catch (error) {
       ctx.status = 500;
-      ctx.body = { message: "Erro ao excluir pedido" };
+      ctx.body = { message: "Error deleting order" };
     }
   }
 }
 
 export default new OrderController();
-/*
-import { NextFunction, Response } from "express";
-
-import { AuthenticatedRequestBody, IUser, ProcessingOrderT } from "../interfaces";
-import { clearAllOrdersService, clearSingleOrderService, getInvoicesService, getOrderService, getOrdersService, postOrderService } from "@src/services";
-
-export const getOrdersController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => getOrdersService(req, res, next);
-export const getOrderController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => getOrderService(req, res, next);
-
-export const postOrderController = (req: AuthenticatedRequestBody<ProcessingOrderT>, res: Response, next: NextFunction) => postOrderService(req, res, next);
-
-export const clearSingleOrderController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => clearSingleOrderService(req, res, next);
-
-export const clearAllOrdersController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => clearAllOrdersService(req, res, next);
-
-export const getInvoicesController = (req: AuthenticatedRequestBody<IUser>, res: Response, next: NextFunction) => getInvoicesService(req, res, next);
-*/

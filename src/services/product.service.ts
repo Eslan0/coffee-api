@@ -1,34 +1,46 @@
 import Product from "../models/product.model";
 
 class ProductService {
-  // Busca todos os produtos
+  // search all products
   async getAll() {
     const products = await Product.find();
     return products;
   }
 
-  // Busca um produto pelo ID
+  // search for featured products
+  async getFeatured() {
+    const products = await Product.find({ featured: true });
+    return products;
+  }
+
+  // search for a product by id
   async getById(id: string) {
     const product = await Product.findById(id);
     return product;
   }
 
-  // Cria um novo produto
-  async create(data: any) {
-    // Aqui entrariam validações extras, ex: verificar se o SKU já existe
+  // create a new product
+  async createProduct(data: any) {
+    // here, extra validations would be included, e.g., checking if the SKU already exists
     const product = await Product.create(data);
     return product;
   }
 
-  // Atualiza um produto existente
-  async update(id: string, data: any) {
+  // update an existing product
+  async updateProduct(id: string, data: any) {
     const product = await Product.findByIdAndUpdate(id, data, { new: true });
     return product;
   }
 
-  // Exclui um produto existente
-  async delete(id: string) {
+  // deletes an existing product
+  async deleteProduct(id: string) {
     const product = await Product.findByIdAndDelete(id);
+    return product;
+  }
+
+  // update only the stock of a product
+  async updateStock(id: string, data: any) {
+    const product = await Product.findByIdAndUpdate(id, data, { new: true });
     return product;
   }
 }

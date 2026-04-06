@@ -1,12 +1,11 @@
-import express from "express";
-import { isAuth, productIdValidation } from "../middlewares/auth";
-import { addProductToCartController, clearCartController, deleteProductFromCartController, getCartController } from "../controllers/";
+import Router from "@koa/router";
 
-const router = express.Router();
+const router = new Router();
 
-router.get("/", isAuth, getCartController);
-router.post("/", isAuth, productIdValidation, addProductToCartController);
-router.delete("/clear-cart", isAuth, clearCartController);
-router.post("/delete-item", isAuth, deleteProductFromCartController);
+router.get("/cart");
+router.post("/cart/items");
+router.patch("/cart/items/:productId");
+router.delete("/cart/items/:productId");
+router.delete("/cart");
 
-export = router;
+export default router;

@@ -1,6 +1,10 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import { OpenAPIV3 } from "openapi-types";
+import fs from "fs";
+import path from "path";
+import yaml from "js-yaml";
 
+// map jsdoc comments to routes
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -11,7 +15,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: "http://localhost:5000/api/v2.0.4",
+        url: "http://localhost:5000/v2.0.4",
       },
     ],
     components: {
@@ -29,7 +33,29 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: ["./src/routes/*.ts"],
+  apis: ["./src/routes/*.ts", "./documents/*.ts"],
 };
 
-export const swaggerSpec = swaggerJSDoc(options) as OpenAPIV3.Document;
+const swaggerSpec = swaggerJSDoc(options) as OpenAPIV3.Document;
+
+// load external yaml files into documents/
+const docsDir = path.resolve(__dirname, "../documents");
+if (fs.existsSync(docsDir)) {
+  const files = fs.readdirSync(docsDir);
+
+  files.forEach((file) => {
+    const ext = path.extname(file);
+    const fullPath = path.join(docsDir, file);
+    if (ext === ".yaml" || ext === ".yml") {
+      const doc = yaml.load(fs.readFileSync(fullPath, "utf8")) as OpenAPIV3.Document;
+      if (doc.paths) {
+        swaggerSpec.paths = {
+          ...swaggerSpec.paths,
+          ...doc.paths,
+        };
+      }
+    }
+  });
+}
+
+export { swaggerSpec };

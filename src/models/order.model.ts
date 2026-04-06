@@ -6,41 +6,38 @@ const OrderSchema = new Schema<IOrder>(
     shippingInfo: {
       address: { type: String, required: true, trim: true, lowercase: true },
       phoneNo: { type: String, required: true, trim: true },
-      zipCode: { type: String, required: true, trim: true, lowercase: true },
-      street: { type: String, trim: true, lowercase: true },
-      city: { type: String, required: true, trim: true, lowercase: true },
-      country: { type: String, required: true, trim: true, lowercase: true },
+      zipCode: { type: String, required: true, trim: true },
+      street: { type: String, trim: true },
+      city: { type: String, required: true, trim: true },
+      country: { type: String, required: true, trim: true },
     },
     user: {
       userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
       email: { type: String, required: true },
-      name: { type: String, trim: true, lowercase: true, required: true },
-      surname: { type: String, trim: true, lowercase: true, required: true },
+      name: { type: String, required: true },
+      surname: { type: String, required: true },
       phone: { type: String, required: true },
     },
     orderItems: [
       {
         product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-        quantity: { type: Number, required: true },
+        quantity: { type: Number, required: true, min: 1 },
       },
     ],
     paymentInfo: { type: String, required: true },
-    textAmount: { type: Number, required: true, default: 0 },
+    taxAmount: { type: Number, required: true, default: 0 },
     shippingAmount: { type: Number, required: true, default: 0 },
     totalAmount: { type: Number, required: true },
     status: {
       type: String,
-      required: true,
-      enum: Object.values(["pending", "shipped", "delivered", "cancelled"]),
+      enum: ["pending", "shipped", "delivered", "cancelled"],
       default: "pending",
-      trim: true,
     },
     deliveredAt: { type: Date },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    versionKey: false,
   }
 );
 

@@ -1,41 +1,18 @@
-import mongoose, { Document } from "mongoose";
-import { IUser } from "./user.interface";
+import { Types } from "mongoose";
 
-export interface IProduct extends Document {
-  name: string;
+export interface IProduct {
+  title: string;
   description: string;
   price: number;
-  quantity: number;
-  productImage: string;
-  productImages: {
+  stock: number;
+  images: {
     url: string;
-    cloudinary_id: string;
+    cloudinary_id?: string;
   }[];
-  brand: string;
-  category: mongoose.Types.ObjectId;
-  stock?: string;
-  numberOfReviews: number;
-  reviews: IReviews[];
-  ratings?: number;
-  user: mongoose.Types.ObjectId;
-  _id: mongoose.Types.ObjectId;
-  createdAt?: string;
-  updatedAt?: string;
-  section: mongoose.Types.ObjectId;
-}
-
-export interface IReviews {
-  user: mongoose.Types.ObjectId;
-  name: string;
-  rating?: number;
-  comment: string;
-}
-
-export interface IAddProductToCart extends IUser {
-  productId: string;
-}
-export interface IReviewProduct extends IUser {
-  productId: string;
-  rating: number;
-  comment: string;
+  category: Types.ObjectId;
+  section: Types.ObjectId;
+  featured: boolean;
+  createdBy: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -15,9 +15,9 @@ const connectDB = async () => {
       const uri = mongoServer.getUri();
 
       await mongoose.connect(uri);
-      console.log("🚀 MongoDB em Memória conectado para testes!");
+      console.log("MongoDB in Memory connected for testing!");
     } catch (error) {
-      console.error("Erro ao iniciar MongoDB em memória:", error);
+      console.error("Error starting MongoDB in memory:", error);
       process.exit(1);
     }
   } else {
@@ -27,37 +27,37 @@ const connectDB = async () => {
 
       if (!MONGO_URI) {
         // check if uri exists
-        throw new Error("ERRO FATAL: MONGO_URI não encontrada no arquivo .env");
+        throw new Error("FATAL ERROR: MONGO_URI not found in .env file");
       }
 
       await mongoose.connect(MONGO_URI);
 
-      console.log("🍃 MongoDB Atlas conectado!");
+      console.log("MongoDB Atlas connected!");
 
       // event listing
       mongoose.connection.on("connected", () => {
         if (envConfig.NODE_ENV === "development") {
-          console.log("Conexão de banco de dados MongoDB estabelecida com sucesso");
+          console.log("MongoDB database connection successfully established");
         }
       });
 
       mongoose.connection.on("reconnected", () => {
         if (envConfig.NODE_ENV === "development") {
-          console.log("Conexão Mongo restabelecida");
+          console.log("Mongo connection reestablished");
         }
       });
 
       mongoose.connection.on("error", (error: Error) => {
         if (envConfig.NODE_ENV === "development") {
-          console.log("Erro de conexão do MongoDB. Certifique-se de que o MongoDB esteja em execução: ");
-          console.log(`ERRO de conexão do Mongo: ${error}`);
+          console.log("MongoDB connection error. Make sure MongoDB is running: ");
+          console.log(`Mongo connection ERROR: ${error}`);
         }
       });
 
       mongoose.connection.on("disconnected", () => {
         if (envConfig.NODE_ENV === "development") {
-          console.log("A conexão do banco de dados MongoDB está desconectada...");
-          console.log("Tentando se reconectar ao Mongo...");
+          console.log("MongoDB database connection is disconnected...");
+          console.log("Trying to reconnect to Mongo...");
         }
 
         setTimeout(() => {
@@ -78,17 +78,17 @@ const connectDB = async () => {
             // if the connection is open close it
             await mongoose.connection.close();
             if (envConfig.NODE_ENV === "development") {
-              console.log("A conexão do banco de dados MongoDB foi desconectada devido ao encerramento do app...");
+              console.log("MongoDB database connection was disconnected due to app closure...");
             }
           }
           process.exit(0);
         } catch (error) {
-          console.error("Erro ao fechar a conexão com o MongoDB: ", error);
+          console.error("Error closing connection to MongoDB: ", error);
           process.exit(1);
         }
       });
     } catch (error) {
-      console.error("Erro ao conectar ao MongoDB: ", error);
+      console.error("Error connecting to MongoDB: ", error);
       process.exit(1);
     }
   }
@@ -105,7 +105,7 @@ export const disconnectDB = async () => {
   // stopping the mongo server in memory if it is active
   if (mongoServer) {
     await mongoServer.stop();
-    console.log("MongoDB em memória desconectado e servidor parado!");
+    console.log("MongoDB in memory disconnected and server stopped!");
   }
 };
 

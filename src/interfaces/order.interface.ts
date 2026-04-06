@@ -1,37 +1,54 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Types } from "mongoose";
 import { IProduct } from "./product.interface";
 import { IUser } from "./user.interface";
 
-export interface IOrder extends Document {
-  orderItems: { quantity: number; product: mongoose.Schema.Types.ObjectId }[];
-  user: Schema.Types.ObjectId;
-  shippingInfo: ShippingInfoT;
+export type OrderStatus =
+  | "pending"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
+
+export interface IOrder {
+  user: IOrderUser;
+  orderItems: IOrderItem[];
+  shippingInfo: IShippingInfo;
   paymentInfo: string;
-  textAmount: number;
+  taxAmount: number;
   shippingAmount: number;
   totalAmount: number;
-  orderStatus: string;
-  deliveredAt: Date;
-  products: Schema.Types.ObjectId[];
-  total: number;
-  status: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export interface OrderedUser extends IUser {
-  product: mongoose.Schema.Types.ObjectId;
+  status: OrderStatus;
+  deliveredAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-export interface ShippingInfoT {
+export interface IOrderItem {
+  product: Types.ObjectId;
+  quantity: number;
+}
+
+export interface IShippingInfo {
   address: string;
-  phoneNo: string;
+  phone: string;
   zipCode: string;
-  status: string;
-  country: string;
-  street: string;
+  street?: string;
   city: string;
+  country: string;
+}
+
+export interface IOrderUser {
+  userId: Types.ObjectId;
+  email: string;
+  name: string;
+  surname: string;
+  phone: string;
+}
+
+export interface IOrderItemPopulated {
+  product: IProduct;
+  quantity: number;
 }
 
 export interface ProcessingStripeCheckoutT extends IUser {
-  orderItems: { quantity: number; product: IProduct }[];
+  orderItems: IOrderItemPopulated[];
 }
