@@ -95,6 +95,7 @@ coverage
 
 # Serverless directories
 .serverless
+.wrangler
 
 # Runtime Data
 pids

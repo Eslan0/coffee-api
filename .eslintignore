@@ -1,3 +1,9 @@
-dist
-node_modules
-coverage
+# .eslintignore
+
+node_modules/
+dist/
+build/
+coverage/
+*.config.js
+*.config.mjs
+.wrangler

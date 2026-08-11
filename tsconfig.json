@@ -2,25 +2,23 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "rootDir": "src",
-    "outDir": "dist",
     "strict": true,
     "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "types": ["@cloudflare/workers-types"],
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "removeComments": true,
-    "incremental": true
+    "incremental": true,
+    "ignoreDeprecations": "6.0"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/__tests__/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage"
-  ]
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "coverage"]
 }

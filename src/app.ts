@@ -1,23 +1,28 @@
-import Koa from "koa";
-import cors from "@koa/cors";
-import helmet from "koa-helmet";
-import bodyParser from "koa-bodyparser";
-import envConfig from "./configs/variable";
-import errorMiddleware from "./middlewares/error.middleware";
-import limitMiddleware from "./middlewares/limit.middleware";
-import apiRoutes from "./routes";
+import { Hono } from "hono";
 
-const app = new Koa();
+/*import { env } from "@/config/env";
+import { errorMiddleware } from "@/middleware/error.middleware";
+import { requestIdMiddleware } from "@/middleware/request-id.middleware";
+*/
+import { coffeeRoutes } from "@/modules/coffee"; /*
+import { userRoutes } from "@/modules/users";
+import { authRoutes } from "@/modules/auth";*/
 
-// middlewares
-const CORS = envConfig.CLIENT_URL;
-app.use(cors({ origin: CORS }));
-app.use(helmet({ contentSecurityPolicy: false })); // remove content-security-policy in production
-app.use(bodyParser());
-app.use(errorMiddleware());
-app.use(limitMiddleware());
+const app = new Hono();
 
-// api routes
-app.use(apiRoutes.routes());
+/*
+app.use("*", requestIdMiddleware);
+
+app.use("*", errorMiddleware);*/
+
+app.get("/health", (c) => {
+  return c.json({
+    status: "ok",
+  });
+});
+
+app.route("/api/v1/coffee", coffeeRoutes); /*
+app.route("/api/v1/users", userRoutes);
+app.route("/api/v1/auth", authRoutes);*/
 
 export default app;

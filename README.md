@@ -10,7 +10,6 @@ Coffee API is a compact RESTful API project for small businesses. Developed with
 - [Technologies](#technologies)
 - [Documentation](#documentation)
 - [Routes](#routes)
-- [Structure](#structure)
 - [Use](#use)
 - [Features](#features)
 - [Security](#security)
@@ -54,48 +53,19 @@ Features:
 
 | Method |     Endpoint     | Description       | Authentication |
 | :----: | :--------------: | :---------------- | :------------: |
-| GET    | `/`              | API health check  | No             |
-| POST   | `/login`         | Authenticate user | No             |
-| GET    | `/users`         | Get all users     | Yes            |
-| POST   | `/users`         | Create a new user | Yes            |
-| GET    | `/users/{id}`    | Get user by ID    | Yes            |
-| PUT    | `/users/{id}`    | Update user       | Yes            |
-| GET    | `/products`      | Get all products  | No             |
-| GET    | `/products/{id}` | Get product by ID | No             |
-| GET    | `/orders`        | Get all orders    | Yes            |
-| GET    | `/orders/{id}`   | Get order by ID   | Yes            |
-| POST   | `/orders`        | Create order      | Yes            |
-| PUT    | `/orders/{id}`   | Update order      | Yes            |
-| DELETE | `/orders/{id}`   | Delete order      | Yes            |
-
-## Structure
-
-```plaintext
-coffee-api/
-├── public/              # Static assets (uploads, public files)
-├── src/
-│   ├── __test__/        # Global and unit tests
-│   ├── configs/         # Environment & database configurations
-│   ├── controllers/     # HTTP request handlers
-│   ├── documents/       # Swagger/OpenAPI documentation
-│   ├── interfaces/      # TypeScript types and interfaces
-│   ├── middlewares/     # Auth, error, and security handlers
-│   ├── models/          # Database schemas (Mongoose)
-│   ├── routes/          # API route definitions
-│   ├── services/        # Business logic and rules
-│   ├── utils/           # Helper functions
-│   └── server.ts        # Application entry point
-├── .env.example         # Template for environment variables
-├── .eslintignore        # ESLint ignore rules
-├── .gitignore           # Git ignore rules
-├── .nvmrc               # Node.js version management
-├── .prettierrc          # Prettier formatting rules
-├── eslint.config.mjs    # ESLint configuration
-├── jest.config.js       # Jest testing configuration
-├── package.json         # Project metadata and dependencies
-├── tsconfig.json        # TypeScript configuration
-└── tsconfig.prod.json   # Production TypeScript build settings
-```
+|  GET   |       `/`        | API health check  |       No       |
+|  POST  |     `/login`     | Authenticate user |       No       |
+|  GET   |     `/users`     | Get all users     |      Yes       |
+|  POST  |     `/users`     | Create a new user |      Yes       |
+|  GET   |  `/users/{id}`   | Get user by ID    |      Yes       |
+|  PUT   |  `/users/{id}`   | Update user       |      Yes       |
+|  GET   |   `/products`    | Get all products  |       No       |
+|  GET   | `/products/{id}` | Get product by ID |       No       |
+|  GET   |    `/orders`     | Get all orders    |      Yes       |
+|  GET   |  `/orders/{id}`  | Get order by ID   |      Yes       |
+|  POST  |    `/orders`     | Create order      |      Yes       |
+|  PUT   |  `/orders/{id}`  | Update order      |      Yes       |
+| DELETE |  `/orders/{id}`  | Delete order      |      Yes       |
 
 ## Use
 
