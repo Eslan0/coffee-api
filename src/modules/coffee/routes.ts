@@ -4,7 +4,7 @@ import { Hono } from "hono";
 
 const coffeeRoutes = new Hono();
 
-coffeeRoutes.get("/", (c) => c.text("Hono!"));
+coffeeRoutes.get("/", (c) => c.json("Hono!"));
 /*coffeeRoutes.get("/", CoffeeController.list);
 coffeeRoutes.get("/:id", CoffeeController.getById);
 coffeeRoutes.post("/", CoffeeController.create);

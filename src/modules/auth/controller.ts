@@ -1,5 +1,5 @@
-import { Context } from "koa";
-import authService from "@/features/auth/service";
+import { Hono } from "hono";
+import authService from "@/modules/auth/service";
 
 class AuthController {
   async signup(ctx: Context) {

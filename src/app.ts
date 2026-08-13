@@ -4,7 +4,8 @@ import { Hono } from "hono";
 import { errorMiddleware } from "@/middleware/error.middleware";
 import { requestIdMiddleware } from "@/middleware/request-id.middleware";
 */
-import { coffeeRoutes } from "@/modules/coffee"; /*
+import { coffeeRoutes } from "@/modules/coffee";
+import { categoryRoutes } from "@/modules/category"; /*
 import { userRoutes } from "@/modules/users";
 import { authRoutes } from "@/modules/auth";*/
 
@@ -15,13 +16,8 @@ app.use("*", requestIdMiddleware);
 
 app.use("*", errorMiddleware);*/
 
-app.get("/health", (c) => {
-  return c.json({
-    status: "ok",
-  });
-});
-
-app.route("/api/v1/coffee", coffeeRoutes); /*
+app.route("/api/v1/coffee", coffeeRoutes);
+app.route("/api/v1/category", categoryRoutes); /*
 app.route("/api/v1/users", userRoutes);
 app.route("/api/v1/auth", authRoutes);*/
 
